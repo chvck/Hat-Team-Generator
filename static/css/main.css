@@ -1,0 +1,125 @@
+html, body {
+    background: #fdfde9;
+    height: 600px;
+}
+input {
+}
+.container {
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+header {
+    background-color: #e9fdf3;
+    border-bottom: 1px solid #bbb;
+    padding: 20px 20px 5px;
+    text-align: center;
+}
+
+header h1 {
+}
+.hidden{
+    display: none;
+}
+#bodyContent {
+    background-color: #fde9f3;
+    padding: 20px 0 15px;
+}
+.dataContainer {
+    margin: 0px 15px 15px 15px;
+    border: 1px solid #bbb;
+}
+.dataContainerHeader {
+    background-color: #e9e9fd;
+    border-bottom: 1px solid #bbb;
+    height: 25px;
+    padding-left: 5px;
+}
+.dataContainerHeaderText {
+    font-size: medium;
+    line-height: 160%;
+    display: inline;
+}
+.dataContainerBody {
+    padding: 5px;
+}
+.dataContainerRow {
+    border-top: 1px solid #bbb;
+    padding: 7px;
+}
+.dataContainerLabel {
+    font-size: 15px;
+    width: 150px;
+    float: left;
+}
+.dataContainerRadioLabel {
+    margin-right: 10px;
+    width: 100px;
+}
+.dataContainerRadio {
+}
+.collapsable {
+    cursor: pointer;
+}
+.dataContainerHeaderImg {
+    float: right;
+    padding: 2px 10px 0px 0px;
+    display: inline;
+    font-weight: bold; 
+}
+.fileUpload {
+    background-color: #fde9f3;
+    color: #404040;
+}
+#formFileUpload {
+    display: inline;
+}
+#enteredColumns {
+    display: inline-block;
+    margin-left: 150px;
+    width: 220px;
+}
+#removeColumnButton {
+    display: inline;
+}
+#createGridButton {
+    margin-left: 150px;
+}
+#dataNotReady {
+    color: red;
+    margin-left: 15px;
+    font-size: 15px;
+}
+.columnButton {
+    margin-left: 8px;
+}
+label {
+    float: none;
+}
+footer {
+    background-color: #e9fdf3;
+    margin: 0;
+    border-top: 1px solid #bbb;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.noBorder {
+    border: none;
+}
+#formula {
+    color: black;
+    background-color: white;
+}
+#metrics {
+    width: 50%;
+}
+.metric {
+    width: 20px;
+    text-align: center;
+}
+.columnMetric{
+    text-align: center;
+}
+.columnNameHeader {
+    width: 70%;
+}
