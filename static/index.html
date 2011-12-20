@@ -3,17 +3,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Hat Team Generator</title>
-        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script type="text/javascript" src="js/jquery.1.7.1.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.1.4.0.min.css">
         <link rel="stylesheet" type="text/css" media="screen" href="css/custom-theme/jquery-ui-1.8.16.custom.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
-         
-        <!--<script src="js/jqgrid/jquery-1.4.2.min.js" type="text/javascript"></script>-->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script type="text/javascript" src="js/jquery.1.7.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
         <script src="js/jqgrid/i18n/grid.locale-en.js" type="text/javascript"></script>
         <script src="js/jqgrid/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/jquery.form.js"></script>
+        <script type="text/javascript" src="js/gridStuff.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+         
+        <!--<script src="js/jqgrid/jquery-1.4.2.min.js" type="text/javascript"></script>-->
     </head>
     <body>
         <div class="container">
@@ -40,7 +43,8 @@
                         
                         <p>The tool should be quite obvious to use but I'll include hints in each step to help you along. Also note that each step (this one included)
                         has a clickable header where you can minimize (or maximize) the area, this helps to keep things easy to navigate. Go ahead, click the header of this area
-                        where it says 'Read this introduction' and get rid of all this text taking up space!</p> 
+                        where it says 'Read this introduction' and get rid of all this text taking up space!</p>
+                        <a href='#' id="introNextStep">Next Step!</a>
                     </div>
                 </div>
                 <div id="inputType" class="dataContainer">
@@ -48,7 +52,7 @@
                         <h1 class="dataContainerHeaderText">Step 2. Setup your input</h1>
                         <span class="dataContainerHeaderImg">&darr;</span>
                     </div>
-                    <div class="dataContainerBody" id="inputTypeBody">
+                    <div class="dataContainerBody" id="inputTypeBody" style="display: none">
                         <div class="dataContainerRow noBorder">
                             <span class="dataContainerLabel">Select an input type:</span>
                             <input type="radio" class="dataContainerRadio" name="inputType" id="inputTypeCsv" value="csv" checked />
@@ -57,8 +61,8 @@
                             <label for="inputTypeManual" class="dataContainerRadioLabel">Manual Entry</span>
                         </div>
                         <div id="uploadOptions">
-                            <form id="formFileUpload" enctype="multipart/form-data" method="POST">
-                                <div class="dataContainerRow" id="inputTypeDelimiterRow">
+                            <form id="formFileUpload" action="/upload" enctype="multipart/form-data" method="POST">
+                                <!--<div class="dataContainerRow" id="inputTypeDelimiterRow">
                                     <span class="dataContainerLabel">Select a delimiter:</span>
                                     <input type="radio" class="dataContainerRadio" name="delimiter" id="delimiterComma" value="comma" checked />
                                     <label for="delimiterComma" class="dataContainerRadioLabel">Comma</span>
@@ -66,11 +70,12 @@
                                     <label for="delimiterTab" class="dataContainerRadioLabel">Tab</span>
                                     <input type="radio" class="dataContainerRadio" name="delimiter" id="delimiterSpace" value="space" />
                                     <label for="delimiterSpace" class="dataContainerRadioLabel">Space</span>
-                                </div>
+                                </div>-->
                                 <div class="dataContainerRow" id="inputTypeUploadRow">
                                     <span class="dataContainerLabel">Select a file:</span>
                                     <input type="file" class="fileUpload" name="inputCSV" />                                
-                                </div>                            
+                                </div>
+                                <input type="submit" value="Upload" class="formButton" />
                             </form>
                         </div>
                         <div id="manualOptions" class="hidden">
@@ -99,7 +104,7 @@
                 <div id="grid" class="dataContainer">
                     <div class="dataContainerHeader collapsable" id="gridHeader">
                         <h1 class="dataContainerHeaderText">Step 3. Customize your data</h1>
-                        <span id="dataNotReady" class="hidden">Setup your input first!</span>
+                        <span id="dataNotReadyPlayer" class="dataNotReady hidden">Setup your input first!</span>
                         <span class="dataContainerHeaderImg">&darr;</span>
                     </div>
                     <div class="dataContainerBody" id="gridBody" style="display: none">
@@ -107,28 +112,63 @@
                             <table id="players"><tr><td/></tr></table>
                             <div id="pager"></div>
                         </div>
+                        <a href='#' id="playersNextStep">Next Step!</a>
+                    </div>
+                </div>
+                <div id="metricsGrid" class="dataContainer">
+                    <div class="dataContainerHeader collapsable" id="metricsGridHeader">
+                        <h1 class="dataContainerHeaderText">Step 4. Setup your metrics</h1>
+                        <span id="dataNotReadyMetrics" class="dataNotReady hidden">Setup your input first!</span>
+                        <span class="dataContainerHeaderImg">&darr;</span>
+                    </div>
+                    <div class="dataContainerBody" id="metricsGridBody" style="display: none">
+                        <div class="dataContainerRow noBorder">
+                            <table id="metrics"><tr><td/></tr></table>
+                            <div id="metricsPager"></div>
+                            <input type="button" value="Generate formula" class="formButton" id="generateFormula" />
+                        </div>    
                         <div class="dataContainerRow">
-                            <table id="metrics" class="bordered-table">
-                                <tr>
-                                    <th class="metricsHeader columnNameHeader">Column</th>
-                                    <th class="metricsHeader columnMetric">Weighting</th>
-                                </tr>
-                            </table>
                             <div class="clearfix">
                                 <span class="dataContainerLabel">Formula:</span>
-                                <input type="text" id="formula" disabled />
+                                <input type="text" id="formula" disabled style="width: 700px;" />
+                            </div>
+                            <!--<div class="clearfix">
+                                <span class="dataContainerLabel">Match genders:</span>
+                                <input type="checkbox" id="genders" />
+                            </div>
+                            <div id="genderOptions" style="display: none">
+                                <div class="clearfix">
+                                    <span class="dataContainerLabel">Gender column name:</span>
+                                    <input type="text" id="genderColumn"/>
+                                </div>-
+                                <div class="clearfix">
+                                    <span class="dataContainerLabel">Format:</span>
+                                    <input type="radio" name="genderFormat" id="genderFormatM" checked />
+                                    <label for="genderFormatM" class="dataContainerRadioLabel">M/F</label>
+                                    <input type="radio" name="genderFormat" id="genderFormatMale" />
+                                    <label for="genderFormatMale" class="dataContainerRadioLabel">Male/Female</label>
+                                </div>
                             </div>
                             <div class="clearfix">
-                                <span class="dataContainerLabel">Number of teams:</span>
-                                <input type="text" id="numberTeams" />
-                            </div>
+                                <span class="dataContainerLabel">Split into attributes:</span>
+                                <input type="checkbox" id="attributes" />
+                            </div>-->
                             <div class="clearfix">
-                                <span class="dataContainerLabel">Players per team:</span>
-                                <input type="text" id="playersTeam" />
+                                <input type="button" value="Generate Teams" id="generateTeams" class="formButton" />
                             </div>
-                            <div class="clearfix">
-                                <input type="button" id="generateTeams" value="Generate the teams" />
-                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="teamsGrid" class="dataContainer">
+                    <div class="dataContainerHeader collapsable" id="teamsGridHeader">
+                        <h1 class="dataContainerHeaderText">Step 5. Marvel at your generated teams</h1>
+                        <span id="dataNotReadyTeams" class="dataNotReady hidden">Setup your metrics first!</span>
+                        <span class="dataContainerHeaderImg">&darr;</span>
+                    </div>
+                    <div class="dataContainerBody" id="teamsGridBody" style="display: none">
+                        <div class="dataContainerRow">
+                            <table id="teams"><tr><td/></tr></table>
+                            <div id="teamsPager"></div>
                         </div>
                     </div>
                 </div>

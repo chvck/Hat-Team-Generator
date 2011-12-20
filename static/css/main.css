@@ -1,5 +1,5 @@
 html, body {
-    background: #fdfde9;
+    background: #E8E3E7;
     height: 600px;
 }
 input {
@@ -10,16 +10,13 @@ input {
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 header {
-    background-color: #e9fdf3;
+    background-color: #E8E3E5;
     border-bottom: 1px solid #bbb;
     padding: 20px 20px 5px;
     text-align: center;
 }
 
 header h1 {
-}
-.hidden{
-    display: none;
 }
 #bodyContent {
     background-color: #fde9f3;
@@ -30,7 +27,7 @@ header h1 {
     border: 1px solid #bbb;
 }
 .dataContainerHeader {
-    background-color: #e9e9fd;
+    background-color: #E8E3E5;
     border-bottom: 1px solid #bbb;
     height: 25px;
     padding-left: 5px;
@@ -68,8 +65,11 @@ header h1 {
     font-weight: bold; 
 }
 .fileUpload {
-    background-color: #fde9f3;
+    background-color: #E7E3E8;
     color: #404040;
+}
+#bigGridContainer {
+    width: 800px;
 }
 #formFileUpload {
     display: inline;
@@ -85,7 +85,7 @@ header h1 {
 #createGridButton {
     margin-left: 150px;
 }
-#dataNotReady {
+.dataNotReady {
     color: red;
     margin-left: 15px;
     font-size: 15px;
@@ -122,4 +122,10 @@ footer {
 }
 .columnNameHeader {
     width: 70%;
+}
+.hidden{
+    display: none;
+}
+.formButton {
+    margin-left: 150px;
 }
