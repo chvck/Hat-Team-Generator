@@ -108,7 +108,7 @@ $(function() {
         formula = '';
         for (var i = 0; i < data.length; i++) {
             var row = data[i];
-            if (isNumber(row.value) && row.value > 0 && row.name != 'Number of Teams' && row.name != 'Players per Team') {
+            if (isNumber(row.value) && row.value > 0 && row.name != 'Number of Teams') {
                 formula = formula + ' (' + row.name + ' * ' + row.value + ') +';
             }
         }
@@ -134,8 +134,6 @@ $(function() {
             var name = metric.name
             if (name == 'Number of Teams') {
                 playerData.numTeams = metric.value;
-            } else if (name == 'Players per Team') {
-                playerData.numPlayersTeam = metric.value
             } else {
                 playerData.columns[name] = metric.value;
             }
@@ -162,6 +160,7 @@ $(function() {
             var model = {name: key, index: key, editable:true, editrules: {required: true}, width: colWidth};
             colModel.push(model);
         }
+        colModel.slice(0,0, {name: 'id', index: 'id', editable:false, hidden: true});
         return colModel
     }
     
@@ -180,9 +179,7 @@ $(function() {
             $metricsGrid.addRowData(i, row);
         }
         var i = $metricsGrid.getDataIDs().length + 1;
-        $metricsGrid.addRowData(i, {index: 'numTeams', name: 'Number of Teams', value: 0});
-        i++;
-        $metricsGrid.addRowData(i, {index: 'numPlayersTeam', name: 'Players per Team', value: 0})
+        $metricsGrid.addRowData(i, {index: 'numTeams', name: 'Number of Teams', value: 8});
         $metricsGrid.trigger('reloadGrid');
     }
     
@@ -230,6 +227,7 @@ $(function() {
                
         $playersGrid.clearGridData();
         for (var i = 0; i < players.length; i++) {
+            players.id = i; 
             $playersGrid.addRowData(i, players[i]);
         }
         $playersGrid.trigger('reloadGrid');

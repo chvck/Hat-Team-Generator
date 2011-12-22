@@ -21,19 +21,50 @@ def main():
 @app.route('/upload', methods=['POST'])
 def upload():
     players = {}
-    data = request.files['inputCSV']
-    if data and allowed_file(data.filename):
-        reader = csv.DictReader(data, delimiter=',')
-        i = 0
-        for row in reader:
-            players[i] = row
-            i += 1
-    players['length'] = len(players);
-    return jsonify(players)   
+    #data = request.files['inputCSV']
+    #if data and allowed_file(data.filename):
+    #reader = csv.DictReader(data, delimiter=',')
+    reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
+    i = 0
+    for row in reader:
+        players[i] = row
+        i += 1
+    players['length'] = len(players)
+    return jsonify(players)
+    
+def qsort(list):
+    if list == []: 
+        return []
+    else:
+        pivot = list[0]
+        lesser = qsort([x for x in list[1:] if x['points'] < pivot['points']])
+        greater = qsort([x for x in list[1:] if x['points'] >= pivot['points']])
+        return lesser + [pivot] + greater
 
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
+    players = data['players']
+    numberTeams = int(data['numTeams'])
+    playersPerTeam = len(players) / numberTeams
+    rankedPlayers = []
+    formula = {}
+    columns = data['columns']
+    for column in columns:
+        if int(columns[column]) != 0:
+            formula[column.strip()] = int(columns[column])
+    totalPoints = 0
+    for player in players:
+        playerPoints = 0
+        for attribute in player:
+            if formula.has_key(attribute.strip()):
+                playerPoints += (int(player[attribute]) * formula[attribute.strip()])
+        player['points'] = playerPoints
+        totalPoints += playerPoints
+    rankedPlayers = qsort(players)
+    for player in rankedPlayers:
+        print player
+    print totalPoints
     return ''
         
 if __name__ == '__main__':
