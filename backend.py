@@ -34,8 +34,6 @@ def upload():
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
-    print data
-    print dir(request)
     return ''
         
 if __name__ == '__main__':

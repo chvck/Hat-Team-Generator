@@ -121,7 +121,7 @@ $(function() {
         var playerData = {};
         
         //TODO: This only brings back the present page of jqgrid
-        playerData.players = $playersGrid.getRowData();
+        playerData.players = $playersGrid.getGridParam('data');
         
         playerData.columns = {};
         //playerData.formula = {};
@@ -141,18 +141,12 @@ $(function() {
             }
         }
         
-        //var formulae = $('#formula').val().split('+');
-        //for (var i = 0; i < formulae.length; i++) {
-        //    var value = formulae[i].replace(/\s/g, '').replace('(', '').replace(')', '').split('*');
-        //    playerData.formula[value[0]] = {name: value[0], value: value[1]};
-        //}
-        
-        console.log(playerData);
-        $.post('/generate', playerData, playerDataCallback);
+        $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
-        
+        console.log(data);
+        console.log(textStatus);
     }
 
     var isNumber = function(n) {
@@ -245,6 +239,13 @@ $(function() {
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
         dataReady = true;
+        
+        //testing
+        $('#generateTeams').click();
+        $('#inputTypeBody').slideUp();
+        $('#introductionBody').slideUp();
+        $('#gridBody').slideUp();
+        $('#metricsGridBody').slideDown();
     }
     
     $('#formFileUpload').ajaxForm({
@@ -252,6 +253,10 @@ $(function() {
         dataType: 'json',
         resetForm: true  
     });
+    
+    var testGenerate = (function() {
+        $.post('/upload', {}, fileUploadCallback);
+    }());
     
     //test();
 });
