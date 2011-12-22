@@ -109,6 +109,13 @@
                     </div>
                     <div class="dataContainerBody" id="gridBody" style="display: none">
                         <div class="dataContainerRow noBorder">
+                            <p>Below is your grid, populated with your player data if you used a CSV, empty otherwise.
+                            It should be fairly straight forward to use, you can use the little icons and double click to
+                            edit rows. Feel free to change the column order by dragging the headers too. So it's down to you;
+                            add, edit, delete, whatever!
+                            </p>
+                        </div>
+                        <div class="dataContainerRow">
                             <table id="players"><tr><td/></tr></table>
                             <div id="pager"></div>
                         </div>
@@ -123,6 +130,16 @@
                     </div>
                     <div class="dataContainerBody" id="metricsGridBody" style="display: none">
                         <div class="dataContainerRow noBorder">
+                            <p>OK, so this bit is fairly important. Here you need to fill out the grid to create the formula
+                            used to calculate how many points to assign to each player. If the attribute is not to be used in
+                            the formula just leave the value as 0, you can only use numeric attributes too!
+                            
+                            For example if I was doing this for Ultimate Frisbee then I'd maybe give Cutting a value of 2 and
+                            Handling a value of 2 then I'd hit generate formula. This'd give me (Cutting * 2) + (Handling * 2).
+                            You can't manually edit the formula, you have to use the grid!
+                            </p>
+                        </div>
+                        <div class="dataContainerRow">
                             <table id="metrics"><tr><td/></tr></table>
                             <div id="metricsPager"></div>
                             <input type="button" value="Generate formula" class="formButton" id="generateFormula" />

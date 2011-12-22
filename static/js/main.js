@@ -119,6 +119,8 @@ $(function() {
     
     $('#generateTeams').click(function() {
         var playerData = {};
+        
+        //TODO: This only brings back the present page of jqgrid
         playerData.players = $playersGrid.getRowData();
         
         playerData.columns = {};
@@ -146,7 +148,12 @@ $(function() {
         //}
         
         console.log(playerData);
+        $.post('/generate', playerData, playerDataCallback);
     });
+
+    var playerDataCallback = function(data, textStatus, jqXHR) {
+        
+    }
 
     var isNumber = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);

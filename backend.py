@@ -35,6 +35,7 @@ def upload():
 def generate():
     data = request.json
     print data
+    print dir(request)
     return ''
         
 if __name__ == '__main__':
