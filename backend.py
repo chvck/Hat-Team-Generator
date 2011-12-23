@@ -41,6 +41,18 @@ def qsort(list):
         greater = qsort([x for x in list[1:] if x['points'] >= pivot['points']])
         return lesser + [pivot] + greater
 
+def splitPlayers(players, numTeams):
+    i = 0
+    splitted = []
+    while (i < len(players)):
+        thisSplit = []
+        for i in range(0, numTeams):
+            thisSplit.append(players[i])
+            players.pop(i)
+        splitPlayers.append(players)
+        i += numTeams
+    return splitted
+
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
