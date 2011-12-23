@@ -49,8 +49,11 @@ def splitPlayers(players, numTeams):
         for i in range(0, numTeams):
             thisSplit.append(players[i])
             players.pop(i)
-        splitPlayers.append(players)
+        splitted.append(players)
         i += numTeams
+    if len(players) > 0:
+        for player in players:
+            splitted[-1].append(player)
     return splitted
 
 @app.route('/generate', methods=['POST'])
