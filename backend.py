@@ -39,14 +39,13 @@ def qsort(slist):
         return []
     else:
         pivot = slist[0]
-        lesser = qsort([x for x in slist[1:] if x['points'] < pivot['points']])
-        greater = qsort([x for x in slist[1:] if x['points'] >= pivot['points']])
+        lesser = qsort([x for x in slist[1:] if x['points'] > pivot['points']])
+        greater = qsort([x for x in slist[1:] if x['points'] <= pivot['points']])
     return lesser + [pivot] + greater
 
-def splitPlayers(players, numTeams):
-    num_players = len(players)
-    return [ players[i*num_players // numTeams: (i+1)*num_players // numTeams] 
-             for i in xrange(numTeams) ]
+def split_players(players, numPlayersTeam):
+    return [ players[i*numPlayersTeam: (i+1)*numPlayersTeam] 
+             for i in xrange(numPlayersTeam) ]
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -74,7 +73,6 @@ def generate():
         for player in block:
             print player
         print ''
-    print totalPoints
     return ''
         
 if __name__ == '__main__':
