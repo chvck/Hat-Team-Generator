@@ -25,36 +25,28 @@ def upload():
     #if data and allowed_file(data.filename):
     #reader = csv.DictReader(data, delimiter=',')
     reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
-    i = 0
-    for row in reader:
-        players[i] = row
-        i += 1
+    ###############
+    #i = 0
+    #for row in reader:
+    #    players[i] = row
+    #    i += 1
+    players = dict((i, row) for (i, row) in enumerate(reader))
     players['length'] = len(players)
     return jsonify(players)
     
-def qsort(list):
-    if list == []: 
+def qsort(slist):
+    if slist == []: 
         return []
     else:
-        pivot = list[0]
-        lesser = qsort([x for x in list[1:] if x['points'] > pivot['points']])
-        greater = qsort([x for x in list[1:] if x['points'] <= pivot['points']])
-        return lesser + [pivot] + greater
+        pivot = slist[0]
+        lesser = qsort([x for x in slist[1:] if x['points'] < pivot['points']])
+        greater = qsort([x for x in slist[1:] if x['points'] >= pivot['points']])
+    return lesser + [pivot] + greater
 
-def split_players(players, playersPerTeam):
-    i = 0
-    splitted = []
-    while (i < len(players)):
-        thisSplit = []
-        for j in range(0, playersPerTeam):
-            thisSplit.append(players[j])
-            players.pop(j)
-        splitted.append(thisSplit)
-        i += playersPerTeam
-    if len(players) > 0:
-        for player in players:
-            splitted[-1].append(player)
-    return splitted
+def splitPlayers(players, numTeams):
+    num_players = len(players)
+    return [ players[i*num_players // numTeams: (i+1)*num_players // numTeams] 
+             for i in xrange(numTeams) ]
 
 @app.route('/generate', methods=['POST'])
 def generate():
