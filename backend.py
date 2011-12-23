@@ -37,20 +37,20 @@ def qsort(list):
         return []
     else:
         pivot = list[0]
-        lesser = qsort([x for x in list[1:] if x['points'] < pivot['points']])
-        greater = qsort([x for x in list[1:] if x['points'] >= pivot['points']])
+        lesser = qsort([x for x in list[1:] if x['points'] > pivot['points']])
+        greater = qsort([x for x in list[1:] if x['points'] <= pivot['points']])
         return lesser + [pivot] + greater
 
-def splitPlayers(players, numTeams):
+def split_players(players, playersPerTeam):
     i = 0
     splitted = []
     while (i < len(players)):
         thisSplit = []
-        for i in range(0, numTeams):
-            thisSplit.append(players[i])
-            players.pop(i)
-        splitted.append(players)
-        i += numTeams
+        for j in range(0, playersPerTeam):
+            thisSplit.append(players[j])
+            players.pop(j)
+        splitted.append(thisSplit)
+        i += playersPerTeam
     if len(players) > 0:
         for player in players:
             splitted[-1].append(player)
@@ -77,8 +77,11 @@ def generate():
         player['points'] = playerPoints
         totalPoints += playerPoints
     rankedPlayers = qsort(players)
-    for player in rankedPlayers:
-        print player
+    rankedPlayers = split_players(rankedPlayers, playersPerTeam)
+    for block in rankedPlayers:
+        for player in block:
+            print player
+        print ''
     print totalPoints
     return ''
         
