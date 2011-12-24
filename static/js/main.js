@@ -4,54 +4,20 @@ $(function() {
     var $metricsGrid = $('#metrics');
     var $teamsGrid = $('#teams');
     
-    $('#introNextStep').click(function() {
-        $('#introductionBody').slideUp();
-        $('#inputTypeBody').slideDown();
-    });
-        
-    $('#playersNextStep').click(function() {
-        $('#gridBody').slideUp();
-        $('#metricsGridBody').slideDown();
-    });
+    //Utility functions
+    var isNumber = function(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    };
     
-    $('#inputTypeHeader').click(function() {
-        $('#inputTypeBody').slideToggle();
-    });
-    
-    $('#introductionHeader').click(function() {
-        $('#introductionBody').slideToggle();
-    });
-    
-    $('input[name="inputType"]').change(function(){
-        $('#uploadOptions').slideToggle();
-        $('#manualOptions').slideToggle();
-    });
-    
-    $('#addColumnButton').click(function() {
-        var $column = $('#textColumnName');
-        var $columnVal = $column.val();
-        if ($columnVal.length > 0) {
-            $('#enteredColumns').append($('<option></option>')
-                                .text($columnVal)
-                                .attr('value', $columnVal)
-            );
+    var getKeys = function(obj){
+        var keys = [];
+        for(var key in obj){
+            keys.push(key);
         }
-        $column.val('');
-        $column.focus();
-    });
+        return keys;
+    };
     
-    $("#textColumnName").keyup(function(event){
-        if(event.keyCode == 13){
-            $("#addColumnButton").click();
-        }
-    });
-    
-    $('#removeColumnButton').click(function() {
-        $('#enteredColumns :selected').each(function(i, element) {
-            $(element).remove();    
-        });
-    });
-    
+    //Click events    
     $('#gridHeader').click(function() {
         if (dataReady) {
             $('#gridBody').slideToggle();
@@ -76,33 +42,9 @@ $(function() {
         }
     });
     
-    $('#genders').change(function() {
-        $('#genderOptions').slideToggle();
-    });
-       
     $('#createGridButton').click(function() {
-        createDataGrids();
+        createManualGrids();
     });
-    
-    var test = function() {
-        $('#enteredColumns').append($('<option></option>')
-                                .text('Name')
-                                .attr('value', 'Name')
-        );
-        $('#enteredColumns').append($('<option></option>')
-                                .text('Cutting')
-                                .attr('value', 'Cutting')
-        );
-        $('#enteredColumns').append($('<option></option>')
-                                .text('Handling')
-                                .attr('value', 'Handling')
-        );
-        $('#enteredColumns').append($('<option></option>')
-                                .text('Experience')
-                                .attr('value', 'Experience')
-        );
-        $('#createGridButton').click();
-    }
     
     $('#generateFormula').click(function() {
         var data = $metricsGrid.getRowData();
@@ -121,7 +63,6 @@ $(function() {
     $('#generateTeams').click(function() {
         var playerData = {};
         
-        //TODO: This only brings back the present page of jqgrid
         playerData.players = $playersGrid.getGridParam('data');
         
         playerData.columns = {};
@@ -146,15 +87,12 @@ $(function() {
     var playerDataCallback = function(data, textStatus, jqXHR) {
         
     };
-
-    var isNumber = function(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    };
     
     var createColModel = function(width, colNames) {
         var colWidth = colNames.length > 0 ? width / colNames.length : 0;
         var colModel = []
         
+        //iterate through the columns and add them to the model
         for(var i = 0; i< colNames.length; i++) {
             var key = colNames[i];
             var model = {name: key, index: key, editable:true, editrules: {required: true}, width: colWidth};
@@ -168,8 +106,10 @@ $(function() {
         var colModel = [{name: 'name', index: 'name', editable:false, editrules: {required: true}, width:320},
                     {name: 'value', index: 'value', editable:true, editrules: {required: true}, width:90}];
         
+        //create the grid
         initGrid($metricsGrid, colNames, colModel, 410, 250, {add: false, del: false, search: false, refresh: false}, '#metricsPager');
         
+        //populate it with the column names entered by the user
         $metricsGrid.clearGridData();
         for (var i = 0; i < playerCols.length ; i++) {
             var row = {};
@@ -177,25 +117,25 @@ $(function() {
             row.value = 0;
             $metricsGrid.addRowData(i, row);
         }
-        var i = $metricsGrid.getDataIDs().length + 1;
-        $metricsGrid.addRowData(i, {index: 'numTeams', name: 'Number of Teams', value: 8});
+        //add an extra row so the user can enter how many teams they want
+        $metricsGrid.addRowData($metricsGrid.getDataIDs().length + 1, {index: 'numTeams', name: 'Number of Teams', value: 0});
         $metricsGrid.trigger('reloadGrid');
     }
     
-    var createDataGrids = function() {
+    var createManualGrids = function() {
         var colNames = [];
         var width = 890;
         
-        //sort the column names
+        //get the column names
         $('#enteredColumns option').each(function(i, element) {
             var $column = $(element).val();      
             colNames.push($column);
         });
         
         //we do colModel serparately so we can work out the width first
-        //TODO: make this not shit and 1 loop no2 2
         var colModel = createColModel(width, colNames);
         
+        //make the players grid
         initGrid($playersGrid, colNames, colModel, 890, 500, {refresh: false}, '#pager')
         
         createMetricsGrid();
@@ -204,18 +144,6 @@ $(function() {
         $('#inputTypeBody').slideUp();
         dataReady = true;
     };   
-    
-    var updateGridCallback = function(data) {
-        
-    };
-    
-    var getKeys = function(obj){
-        var keys = [];
-        for(var key in obj){
-            keys.push(key);
-        }
-        return keys;
-    };
     
     var fileUploadCallback = function(players) {
         var colNames = getKeys(players[0]);
@@ -237,22 +165,46 @@ $(function() {
         dataReady = true;
         
         //testing
-        $('#generateTeams').click();
         $('#inputTypeBody').slideUp();
         $('#introductionBody').slideUp();
         $('#gridBody').slideUp();
         $('#metricsGridBody').slideDown();
     }
     
+    //This interrupts the form submission and fires it voodoo which allows us to
+    //add a callback meaning the page doesn't need to refresh 
     $('#formFileUpload').ajaxForm({
         success: fileUploadCallback,
         dataType: 'json',
         resetForm: true  
     });
     
-    var testGenerate = (function() {
-        $.post('/upload', {}, fileUploadCallback);
-    }());
+    //Testing
+    var manualTest = function() {
+        var $columns = $('#enteredColumns');
+        $columns.append($('<option></option>')
+                                .text('Name')
+                                .attr('value', 'Name')
+        );
+        $columns.append($('<option></option>')
+                                .text('Cutting')
+                                .attr('value', 'Cutting')
+        );
+        $columns.append($('<option></option>')
+                                .text('Handling')
+                                .attr('value', 'Handling')
+        );
+        $columns.append($('<option></option>')
+                                .text('Experience')
+                                .attr('value', 'Experience')
+        );
+        $('#createGridButton').click();
+    }
     
-    //test();
+    var testGenerate = function() {
+        $.post('/test', {}, fileUploadCallback);
+    };
+    
+    testGenerate();
+    //manualTest();
 });

@@ -26,6 +26,7 @@ def upload():
     players['length'] = len(players)
     return jsonify(players)
 
+@app.route('/test', methods=['POST'])
 def test_read_csv():
     players = {}
     reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
@@ -50,7 +51,7 @@ def teamify(players, num_teams, total_points):
     random.seed()
     points_per_team = total_points // num_teams
     for i in xrange(num_teams):
-        teams[i] = {'players': '', 'points': points_per_team}
+        teams[i] = {'players': [], 'points': points_per_team}
     for list_players in players:
         if len(list_players) > 0:
             for teamKey in teams:
