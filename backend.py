@@ -29,9 +29,9 @@ def upload():
 @app.route('/test', methods=['POST'])
 def test_read_csv():
     players = {}
-    reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
-    players = dict((i, row) for (i, row) in enumerate(reader))
-    players['length'] = len(players)
+    with open('../hatstuff.txt', 'r') as f:
+        players = dict((i, row) for (i, row) in enumerate(csv.DictReader(f)))
+        players['length'] = len(players)
     return jsonify(players)
 
 def qsort(slist):
