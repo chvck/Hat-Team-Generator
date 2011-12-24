@@ -20,8 +20,7 @@ def upload():
     players = {}
     data = request.files['inputCSV']
     if data and allowed_file(data.filename):
-        reader = csv.DictReader(data, delimiter=',')
-        players = dict((i, row) for (i, row) in enumerate(reader))
+        players = dict((i, row) for (i, row) in enumerate(csv.DictReader(data)))
     players['length'] = len(players)
     return jsonify(players)
 
