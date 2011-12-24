@@ -2,6 +2,7 @@ $(function() {
     var dataReady = false;
     var $playersGrid = $("#players");
     var $metricsGrid = $('#metrics');
+    var $teamsGrid = $('#teams');
     
     $('#introNextStep').click(function() {
         $('#introductionBody').slideUp();
@@ -143,9 +144,8 @@ $(function() {
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
-        console.log(data);
-        console.log(textStatus);
-    }
+        
+    };
 
     var isNumber = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
@@ -160,7 +160,6 @@ $(function() {
             var model = {name: key, index: key, editable:true, editrules: {required: true}, width: colWidth};
             colModel.push(model);
         }
-        colModel.slice(0,0, {name: 'id', index: 'id', editable:false, hidden: true});
         return colModel
     }
     
@@ -227,7 +226,6 @@ $(function() {
                
         $playersGrid.clearGridData();
         for (var i = 0; i < players.length; i++) {
-            players.id = i; 
             $playersGrid.addRowData(i, players[i]);
         }
         $playersGrid.trigger('reloadGrid');

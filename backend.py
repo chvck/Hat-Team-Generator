@@ -3,6 +3,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import jsonify
+import random
 from werkzeug import secure_filename
 import csv
 
@@ -43,37 +44,69 @@ def qsort(slist):
         greater = qsort([x for x in slist[1:] if x['points'] <= pivot['points']])
     return lesser + [pivot] + greater
 
-def split_players(players, numPlayersTeam):
-    return [ players[i*numPlayersTeam: (i+1)*numPlayersTeam] 
-             for i in xrange(numPlayersTeam) ]
+def split_players(players, num_teams):
+    return [ players[i*num_teams: (i+1)*num_teams] 
+             for i in xrange(len(players) // num_teams) ]
+
+def teamify(players, num_teams, total_points):
+    teams = {}
+    random.seed()
+    points_per_team = total_points // num_teams
+    for i in xrange(num_teams):
+        team = {}
+        #team['points'] = points_per_team
+        team['players'] = []
+        teams[i] = team
+    for list_players in players:
+        print len(list_players)
+        if len(list_players) > 0:
+            for teamKey in teams:
+                index = random.randint(0, len(list_players)-1)
+                teams[teamKey]['players'].append(list_players[index])
+                #team['points'] -= list_players[index]['points']
+                list_players.pop(index)
+            #if len(list_players) > 0:
+            #    for i in xrange(len(list_players)):
+            #        index = random.randint(0, len(teams)-1)
+            #        teams[index]['players'].append(list_players[0])
+            #        #team['points'] -= list_players[0]['points']
+            #        list_players.pop(0)
+    return teams
 
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
     players = data['players']
-    numberTeams = int(data['numTeams'])
-    playersPerTeam = len(players) / numberTeams
-    rankedPlayers = []
+    number_teams = int(data['numTeams'])
+    players_per_team = len(players) / number_teams
+    ranked_players = []
     formula = {}
     columns = data['columns']
     for column in columns:
         if int(columns[column]) != 0:
             formula[column.strip()] = int(columns[column])
-    totalPoints = 0
+    total_points = 0
     for player in players:
-        playerPoints = 0
+        player_points = 0
         for attribute in player:
             if formula.has_key(attribute.strip()):
-                playerPoints += (int(player[attribute]) * formula[attribute.strip()])
-        player['points'] = playerPoints
-        totalPoints += playerPoints
-    rankedPlayers = qsort(players)
-    rankedPlayers = split_players(rankedPlayers, playersPerTeam)
-    for block in rankedPlayers:
-        for player in block:
-            print player
-        print ''
-    return ''
+                player_points += (int(player[attribute]) * formula[attribute.strip()])
+        player['points'] = player_points
+        total_points += player_points
+    ranked_players = qsort(players)
+    ranked_players = split_players(ranked_players, number_teams)
+    
+    teams = teamify(ranked_players, number_teams, total_points)
+    
+    for team in teams:
+        points = 0
+        for player in teams[team]['players']:
+            #print player
+            points += player['points']
+        #print ''
+    #print (teams)
+    teams['length'] = len(teams)
+    return jsonify(teams)
         
 if __name__ == '__main__':
     app.debug = True
