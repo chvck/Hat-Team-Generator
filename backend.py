@@ -1,11 +1,8 @@
-from flask import Flask
-from flask import request
-from flask import redirect
-from flask import url_for
-from flask import jsonify
-import random
-from werkzeug import secure_filename
 import csv
+import random
+
+from flask import Flask, jsonify, redirect, request, url_for
+
 
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
@@ -34,29 +31,26 @@ def upload():
     players = dict((i, row) for (i, row) in enumerate(reader))
     players['length'] = len(players)
     return jsonify(players)
-    
+
 def qsort(slist):
-    if slist == []: 
+    if not slist:
         return []
-    else:
-        pivot = slist[0]
-        lesser = qsort([x for x in slist[1:] if x['points'] > pivot['points']])
-        greater = qsort([x for x in slist[1:] if x['points'] <= pivot['points']])
+    pivot = slist[0]
+    lesser = qsort([x for x in slist[1:] if x['points'] > pivot['points']])
+    greater = qsort([x for x in slist[1:] if x['points'] <= pivot['points']])
     return lesser + [pivot] + greater
 
 def split_players(players, num_teams):
-    return [ players[i*num_teams: (i+1)*num_teams] 
-             for i in xrange(len(players) // num_teams) ]
+    return [players[i*num_teams: (i+1)*num_teams]
+            for i in xrange(len(players) // num_teams)]
 
 def teamify(players, num_teams, total_points):
     teams = {}
     random.seed()
     points_per_team = total_points // num_teams
     for i in xrange(num_teams):
-        team = {}
         #team['points'] = points_per_team
-        team['players'] = []
-        teams[i] = team
+        teams[i] = {'players': ''}
     for list_players in players:
         print len(list_players)
         if len(list_players) > 0:
@@ -95,9 +89,9 @@ def generate():
         total_points += player_points
     ranked_players = qsort(players)
     ranked_players = split_players(ranked_players, number_teams)
-    
+
     teams = teamify(ranked_players, number_teams, total_points)
-    
+
     for team in teams:
         points = 0
         for player in teams[team]['players']:
@@ -107,7 +101,6 @@ def generate():
     #print (teams)
     teams['length'] = len(teams)
     return jsonify(teams)
-        
+
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    app.run(debug = True)
