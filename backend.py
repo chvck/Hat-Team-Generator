@@ -69,13 +69,12 @@ def teamify(players, num_teams, total_points):
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    data = request.json
-    players = data['players']
-    number_teams = int(data['numTeams'])
+    players = request.json['players']
+    number_teams = int(request.json['numTeams'])
     players_per_team = len(players) / number_teams
     ranked_players = []
     formula = {}
-    columns = data['columns']
+    columns = request.json['columns']
     for column in columns:
         if int(columns[column]) != 0:
             formula[column.strip()] = int(columns[column])
