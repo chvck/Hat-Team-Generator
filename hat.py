@@ -1,7 +1,8 @@
 import csv
 import random
+from time import strftime
 
-from flask import Flask, jsonify, redirect, request, url_for
+from flask import Flask, jsonify, redirect, request, url_for, send_from_directory
 
 
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
@@ -117,11 +118,28 @@ def generate():
         print points
         print team['points']
         print ''
-        
+    
+    filename = strftime('%Y-%m-%d %H-%M-%S') + '.csv'    
+    with open('downloads/' + filename, 'w') as team_file:
+        line = 'Team,'
+        for column in columns:
+            line = line + column + ','
+        line = line + 'Points' + '\n'
+        team_file.write(line)
+        for team in teams:
+            points = 0
+            for player in team['players']:
+                line = str(teams.index(team)) + ','
+                for column in columns:
+                    line = line + str(player[column]) + ','
+                line = line + str(player['points']) + '\n'
+                team_file.write(line)
+                points += player['points']
+            team_file.write('Total team points: ' + str(points) + ', Average player player points: ' + str(points/len(team['players'])) + '\n') 
         
     #print (teams)
     #teams['length'] = len(teams)
-    return ''
+    return send_from_directory('downloads', filename)
 
 if __name__ == '__main__':
     app.run(debug = True)
