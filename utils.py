@@ -1,4 +1,7 @@
+from csv import DictReader
 import random
+
+from flask import jsonify
 
 
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
@@ -6,6 +9,11 @@ ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+def jsonify_csv(csv_file):
+    players = {i: row for i, row in enumerate(DictReader(csv_file))}
+    players['length'] = len(players)
+    return jsonify(players)
 
 def qsort(slist):
     if not slist:
