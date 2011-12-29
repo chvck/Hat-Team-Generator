@@ -53,4 +53,8 @@ $(function() {
     $('#genders').change(function() {
         $('#genderOptions').slideToggle();
     });
+    
+    $('#attributes').change(function() {
+        $('#attributeSelection').slideToggle();
+    });
 });

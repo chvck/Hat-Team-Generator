@@ -139,10 +139,56 @@ $(function() {
         
         createMetricsGrid();
         
+        createGenderRadios(colNames);
+        createAttributeCheckboxes(colNames);
+        
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
         dataReady = true;
     };   
+    
+    var createAttributeCheckboxes = function(colNames) {
+        for (var i = 0; i < colNames.length; i++) {
+            var column = colNames[i];
+            $('#attributeSelection').append(
+                $(document.createElement('input')).attr({
+                    id: column,
+                    name: 'selectedAttributes[]',
+                    value: column,
+                    type: 'checkbox'
+                })
+            )
+            .append(
+                  $(document.createElement('label')).attr({
+                    'for': column,
+                    'class': 'dataContainerRadioLabel'
+                  })
+                  .text(column)
+            );
+        }; 
+    }
+    
+    var createGenderRadios = function(colNames) {
+        for (var i = 0; i < colNames.length; i++) {
+            var column = colNames[i];
+            $('#genderColumnName').append(
+                $(document.createElement('input')).attr({
+                    id: column,
+                    name: 'selectedGender',
+                    value: column,
+                    type: 'radio',
+                    'class': 'dataContainerRadio'
+                })
+            )
+            .append(
+                  $(document.createElement('label')).attr({
+                    'for': column,
+                    'class': 'dataContainerRadioLabel'
+                  })
+                  .text(column)
+            );
+        }; 
+    }
     
     var fileUploadCallback = function(players) {
         var colNames = getKeys(players[0]);
@@ -158,6 +204,9 @@ $(function() {
         $playersGrid.trigger('reloadGrid');
         
         createMetricsGrid(colNames);
+        
+        createGenderRadios(colNames);
+        createAttributeCheckboxes(colNames);
         
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
