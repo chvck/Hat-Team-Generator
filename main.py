@@ -1,9 +1,9 @@
-from csv import DictReader
+from os.path import abspath, dirname, join
 from time import strftime
 
-from flask import Flask, jsonify, redirect, request, url_for, send_from_directory, render_template
+from flask import Flask, request, send_from_directory, render_template
 
-from utils import allowed_file, qsort, split_players, teamify
+from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
 
 app = Flask(__name__)
@@ -14,18 +14,13 @@ def main():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    players = {}
     data = request.files['inputCSV']
     if data and allowed_file(data.filename):
-        players = {i: row for i, row in enumerate(DictReader(data))}
-    players['length'] = len(players)
-    return jsonify(players)
+        return jsonify_csv(data)
 
 @app.route('/test', methods=['POST'])
-def test_read_csv():
-    players = {i: row for i, row in enumerate(DictReader(open('../hatstuff.txt', 'r')))}
-    players['length'] = len(players)
-    return jsonify(players)
+def test_csv():
+    return jsonify_csv(open(join(abspath(dirname(__file__)), 'test/test_hat_standard.txt'), 'r'))
 
 @app.route('/generate', methods=['POST'])
 def generate():
