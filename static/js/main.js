@@ -95,16 +95,19 @@ $(function() {
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
+        $returnStatus = $('#generateReturnStatus');
+        $('downloadTeams').slideUp();
         if (data.status == 'failed') {
-            $('#generateReturnStatus').removeAttr('class')
+            $returnStatus.removeAttr('class')
                 .attr('class', 'alert-message error')
                 .html('<p><strong>Error! </strong>' + data.message + '</p>')
                 .slideDown();    
         } else {
-            $('#generateReturnStatus').removeAttr('class')
+            $returnStatus.removeAttr('class')
                 .attr('class', 'alert-message success')
-                .html('<p><strong>Success!</strong> Your brand spanking new csv file should be downloading now!')
+                .html('<p><strong>Success!</strong> Your brand spanking new csv file is ready for download below!')
                 .slideDown();
+            $('#downloadTeams').slideDown();
         }
     };
     

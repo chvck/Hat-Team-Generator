@@ -1,12 +1,14 @@
 from os.path import abspath, dirname, join
 from time import strftime
 
-from flask import Flask, request, send_from_directory, render_template
+from flask import Flask, request, send_from_directory, render_template, jsonify, session
 
 from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
+from werkzeug import secure_filename
 
 app = Flask(__name__)
+app.secret_key = '<insertsomethingsecret>'
 
 @app.route('/', methods=['GET'])
 def main():
@@ -15,11 +17,13 @@ def main():
 @app.route('/upload', methods=['POST'])
 def upload():
     data = request.files['inputCSV']
+    session['uploaded_filename'] = secure_filename(data.filename)
     if data and allowed_file(data.filename):
         return jsonify_csv(data)
 
 @app.route('/test', methods=['POST'])
 def test_csv():
+    session['uploaded_filename'] = secure_filename('testing')
     return jsonify_csv(open(join(abspath(dirname(__file__)), 'test/test_hat_standard.txt'), 'r'))
 
 @app.route('/generate', methods=['POST'])
@@ -61,7 +65,7 @@ def generate():
         print team['points']
         print ''
 
-    filename = '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
+    filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
     with open('downloads/' + filename, 'w') as team_file:
         line = 'Team,'
         for column in columns:
@@ -82,7 +86,12 @@ def generate():
 
     #print (teams)
     #teams['length'] = len(teams)
-    return send_from_directory('downloads', filename)
+    session['filename'] = filename
+    return jsonify({'status': 'success'})
+    
+@app.route('/download', methods=['POST'])
+def download():
+    return send_from_directory('downloads', session['filename'], as_attachment=True, mimetype='text/csv')
 
 if __name__ == '__main__':
     app.run(debug = True)
