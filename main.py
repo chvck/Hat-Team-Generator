@@ -18,7 +18,7 @@ def upload():
     data = request.files['inputCSV']
     if data and allowed_file(data.filename):
         reader = csv.DictReader(data, delimiter=',')
-        players = dict((i, row) for (i, row) in enumerate(reader))
+        players = {i: row for i, row in enumerate(reader)}
     players['length'] = len(players)
     return jsonify(players)
 
@@ -26,7 +26,7 @@ def upload():
 def test_read_csv():
     players = {}
     reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
-    players = dict((i, row) for (i, row) in enumerate(reader))
+    players = {i: row for i, row in enumerate(reader)}
     players['length'] = len(players)
     return jsonify(players)
 
