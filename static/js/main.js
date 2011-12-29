@@ -80,6 +80,17 @@ $(function() {
             }
         }
         
+        playerData.genderColumn = $('input[name="selectedGender"]:checked').val();
+        playerData.genderFormat = $('input[name="genderFormat"]:checked').val();
+        
+        playerData.balanceAttributes = []
+        
+        $.each($('input[name="selectedAttributes[]"]:checked'), function() {
+            playerData.balanceAttributes.push($(this).val()); 
+        });
+        
+        console.log(playerData);
+        
         $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
@@ -152,7 +163,7 @@ $(function() {
             var column = colNames[i];
             $('#attributeSelection').append(
                 $(document.createElement('input')).attr({
-                    id: column,
+                    id: "attribute" + column,
                     name: 'selectedAttributes[]',
                     value: column,
                     type: 'checkbox'
@@ -160,7 +171,7 @@ $(function() {
             )
             .append(
                   $(document.createElement('label')).attr({
-                    'for': column,
+                    'for': "attribute" + column,
                     'class': 'dataContainerRadioLabel'
                   })
                   .text(column)
@@ -173,7 +184,7 @@ $(function() {
             var column = colNames[i];
             $('#genderColumnName').append(
                 $(document.createElement('input')).attr({
-                    id: column,
+                    id: "gender" + column,
                     name: 'selectedGender',
                     value: column,
                     type: 'radio',
@@ -182,7 +193,7 @@ $(function() {
             )
             .append(
                   $(document.createElement('label')).attr({
-                    'for': column,
+                    'for': "gender" + column,
                     'class': 'dataContainerRadioLabel'
                   })
                   .text(column)
