@@ -30,7 +30,13 @@ def test_read_csv():
 @app.route('/generate', methods=['POST'])
 def generate():
     players = request.json['players']
+    if len(players) < 2:
+        return jsonify({'status': 'failed', 'message': 'You might want a few more players, must have 2 or more.'})
+        
     number_teams = int(request.json['numTeams'])
+    if number_teams < 2:
+        return jsonify({'status': 'failed', 'message': 'Too few teams, must have 2 or more.'})
+        
     players_per_team = len(players) / number_teams
     ranked_players = []
     formula = {}

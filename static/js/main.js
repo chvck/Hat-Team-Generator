@@ -88,14 +88,12 @@ $(function() {
         $.each($('input[name="selectedAttributes[]"]:checked'), function() {
             playerData.balanceAttributes.push($(this).val()); 
         });
-        
-        console.log(playerData);
-        
+                
         $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
-        
+        console.log(data);
     };
     
     var createColModel = function(width, colNames) {
