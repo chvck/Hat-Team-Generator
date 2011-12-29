@@ -68,7 +68,6 @@ $(function() {
         playerData.columns = {};
         //playerData.formula = {};
         playerData.numTeams = 0;
-        playerData.numPlayersTeam = 0;
         
         var metrics = $metricsGrid.getRowData();
         for (var i = 0; i < metrics.length; i++) {
