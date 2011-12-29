@@ -88,12 +88,24 @@ $(function() {
         $.each($('input[name="selectedAttributes[]"]:checked'), function() {
             playerData.balanceAttributes.push($(this).val()); 
         });
+        
+        $('#generateReturnStatus').slideUp();
                 
         $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
-        console.log(data);
+        if (data.status == 'failed') {
+            $('#generateReturnStatus').removeAttr('class')
+                .attr('class', 'alert-message error')
+                .html('<p><strong>Error! </strong>' + data.message + '</p>')
+                .slideDown();    
+        } else {
+            $('#generateReturnStatus').removeAttr('class')
+                .attr('class', 'alert-message success')
+                .html('<p><strong>Success!</strong> Your brand spanking new csv file should be downloading now!')
+                .slideDown();
+        }
     };
     
     var createColModel = function(width, colNames) {

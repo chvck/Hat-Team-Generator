@@ -85,7 +85,7 @@ def generate():
             team_file.write('Total team points: %s, Average player player points: %s\n' % (
                             str(points), str(points/len(team['players']))))
 
-    print (teams)
+    #print (teams)
     #teams['length'] = len(teams)
     return send_from_directory('downloads', filename)
 
