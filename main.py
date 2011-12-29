@@ -123,7 +123,7 @@ def generate():
         print team['points']
         print ''
 
-    filename = strftime('%Y-%m-%d %H-%M-%S') + '.csv'
+    filename = '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
     with open('downloads/' + filename, 'w') as team_file:
         line = 'Team,'
         for column in columns:
@@ -139,7 +139,8 @@ def generate():
                 line = line + str(player['points']) + '\n'
                 team_file.write(line)
                 points += player['points']
-            team_file.write('Total team points: ' + str(points) + ', Average player player points: ' + str(points/len(team['players'])) + '\n')
+            team_file.write('Total team points: %s, Average player player points: %s\n' % (
+                            str(points), str(points/len(team['players']))))
 
     #print (teams)
     #teams['length'] = len(teams)
