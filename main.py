@@ -1,4 +1,4 @@
-import csv
+from csv import DictReader
 from time import strftime
 
 from flask import Flask, jsonify, redirect, request, url_for, send_from_directory
@@ -17,16 +17,13 @@ def upload():
     players = {}
     data = request.files['inputCSV']
     if data and allowed_file(data.filename):
-        reader = csv.DictReader(data, delimiter=',')
-        players = {i: row for i, row in enumerate(reader)}
+        players = {i: row for i, row in enumerate(DictReader(data))}
     players['length'] = len(players)
     return jsonify(players)
 
 @app.route('/test', methods=['POST'])
 def test_read_csv():
-    players = {}
-    reader = csv.DictReader(open('../hatstuff.txt', 'r'), delimiter=',')
-    players = {i: row for i, row in enumerate(reader)}
+    players = {i: row for i, row in enumerate(DictReader(open('../hatstuff.txt', 'r')))}
     players['length'] = len(players)
     return jsonify(players)
 
