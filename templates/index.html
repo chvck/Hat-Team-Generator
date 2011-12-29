@@ -2,23 +2,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
         <title>Hat Team Generator</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.1.4.0.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="css/custom-theme/jquery-ui-1.8.16.custom.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script type="text/javascript" src="js/jquery.1.7.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
-        <script src="js/jqgrid/i18n/grid.locale-en.js" type="text/javascript"></script>
-        <script src="js/jqgrid/jquery.jqGrid.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="js/jquery.form.js"></script>
-        <script type="text/javascript" src="js/jquery.json-2.3.min.js"></script>
-        <script type="text/javascript" src="js/grids.js"></script>
-        <script type="text/javascript" src="js/basics.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        
-         
-        <!--<script src="js/jqgrid/jquery-1.4.2.min.js" type="text/javascript"></script>-->
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/bootstrap.1.4.0.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/custom-theme/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/ui.jqgrid.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/css/main.css">
+
+        <script type="text/javascript" src="/static/js/jquery.1.7.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript" src="/static/js/jqgrid/i18n/grid.locale-en.js"></script>
+        <script type="text/javascript" src="/static/js/jqgrid/jquery.jqGrid.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.form.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.json-2.3.min.js"></script>
+        <script type="text/javascript" src="/static/js/grids.js"></script>
+        <script type="text/javascript" src="/static/js/basics.js"></script>
+        <script type="text/javascript" src="/static/js/main.js"></script>
+        <!--<script type="text/javascript" src="/static/js/jqgrid/jquery-1.4.2.min.js"></script>-->
     </head>
     <body>
         <div class="container">
@@ -32,20 +33,9 @@
                         <span class="dataContainerHeaderImg">&darr;</span>
                     </div>
                     <div class="dataContainerBody" id="introductionBody">
-                        <p>This webpage is a tool for creating "hat" teams for tournaments. Hat tournaments are
-                        tournaments where individuals join rather than teams, all players names are put into a hat
-                        and teams are formed randomly by taking names from the hat. This tool aims to make that process
-                        as easy as possible, and fair - tournaments are no fun if you're just playing teams way better than
-                        yours!</p>
-                        
-                        <p>The way that this tool works is that you'll need to give players attributes such as skill level in this, skill level in
-                        that etc... As an example, in Ultimate Frisbee you might ask all players to provide their handling skill, cutting skill and
-                        number of years they've being playing. The best way to do this is to upload a csv with the column headers you want on the first
-                        line of the file and players on each row thereafter. You can also use this tool in manual mode but you'll have to sit there and enter all the player data yourself! </p>
-                        
-                        <p>The tool should be quite obvious to use but I'll include hints in each step to help you along. Also note that each step (this one included)
-                        has a clickable header where you can minimize (or maximize) the area, this helps to keep things easy to navigate. Go ahead, click the header of this area
-                        where it says 'Read this introduction' and get rid of all this text taking up space!</p>
+                        <p>This webpage is a tool for creating "hat" teams for tournaments. Hat tournaments are tournaments where individuals join rather than teams, all players names are put into a hat and teams are formed randomly by taking names from the hat. This tool aims to make that process as easy as possible, and fair - tournaments are no fun if you're just playing teams way better than yours!</p>
+                        <p>The way that this tool works is that you'll need to give players attributes such as skill level in this, skill level in that etc... As an example, in Ultimate Frisbee you might ask all players to provide their handling skill, cutting skill and number of years they've being playing. The best way to do this is to upload a csv with the column headers you want on the first line of the file and players on each row thereafter. You can also use this tool in manual mode but you'll have to sit there and enter all the player data yourself!</p>
+                        <p>The tool should be quite obvious to use but I'll include hints in each step to help you along. Also note that each step (this one included) has a clickable header where you can minimize (or maximize) the area, this helps to keep things easy to navigate. Go ahead, click the header of this area where it says 'Read this introduction' and get rid of all this text taking up space!</p>
                         <a href='#' id="introNextStep">Next Step!</a>
                     </div>
                 </div>
@@ -74,20 +64,17 @@
                                     <label for="delimiterSpace" class="dataContainerRadioLabel">Space</span>
                                 </div>-->
                                 <div class="dataContainerRow" id="inputTypeUploadRow">
-                                    <p>If I was nice I'd maybe let you select the file delimiter here. I'm not though, so make sure
-                                    it's comma delimited.</p>
+                                    <p>If I was nice I'd maybe let you select the file delimiter here. I'm not though, so make sure it's comma delimited.</p>
                                     <span class="dataContainerLabel">Select a file:</span>
-                                    <input type="file" class="fileUpload" name="inputCSV" />                                
+                                    <input type="file" class="fileUpload" name="inputCSV" />
                                 </div>
                                 <input type="submit" value="Upload" class="formButton" />
                             </form>
                         </div>
                         <div id="manualOptions" class="hidden">
                             <div class="dataContainerRow">
-                                <p>Feeling brave then? Add each of the column names that you want. For example: Player name, Skill1, Skill2, SomethingElse.
-                                </p>
-                                <p>Make sure that you've thought about this before doing it, once you hit create you won't be able to alter the columns
-                                without losing any data you enter.</p>
+                                <p>Feeling brave then? Add each of the column names that you want. For example: Player name, Skill1, Skill2, SomethingElse.</p>
+                                <p>Make sure that you've thought about this before doing it, once you hit create you won't be able to alter the columns without losing any data you enter.</p>
                             </div>
                             <div class="dataContainerRow">
                                 <span class="dataContainerLabel">Column name:</span>
@@ -95,8 +82,7 @@
                                 <input type="button" id="addColumnButton" class="columnButton" value="Add Column" />
                             </div>
                             <div class="dataContainerRow noBorder">
-                                <select id="enteredColumns" size=5 multiple>
-                                </select>
+                                <select id="enteredColumns" size=5 multiple></select>
                                 <input type="button" id="removeColumnButton" class="columnButton" value="Remove Selected Column(s)" />
                             </div>
                             <div class="dataContainerRow">
@@ -113,11 +99,7 @@
                     </div>
                     <div class="dataContainerBody" id="gridBody" style="display: none">
                         <div class="dataContainerRow noBorder">
-                            <p>Below is your grid, populated with your player data if you used a CSV, empty otherwise.
-                            It should be fairly straight forward to use, you can use the little icons and double click to
-                            edit rows. Feel free to change the column order by dragging the headers too. So it's down to you;
-                            add, edit, delete, whatever!
-                            </p>
+                            <p>Below is your grid, populated with your player data if you used a CSV, empty otherwise. It should be fairly straight forward to use, you can use the little icons and double click to edit rows. Feel free to change the column order by dragging the headers too. So it's down to you; add, edit, delete, whatever!</p>
                         </div>
                         <div class="dataContainerRow">
                             <table id="players"><tr><td/></tr></table>
@@ -134,20 +116,14 @@
                     </div>
                     <div class="dataContainerBody" id="metricsGridBody" style="display: none">
                         <div class="dataContainerRow noBorder">
-                            <p>OK, so this bit is fairly important. Here you need to fill out the grid to create the formula
-                            used to calculate how many points to assign to each player. If the attribute is not to be used in
-                            the formula just leave the value as 0, you can only use numeric attributes too!
-                            
-                            For example if I was doing this for Ultimate Frisbee then I'd maybe give Cutting a value of 2 and
-                            Handling a value of 2 then I'd hit generate formula. This'd give me (Cutting * 2) + (Handling * 2).
-                            You can't manually edit the formula, you have to use the grid!
-                            </p>
+                            <p>OK, so this bit is fairly important. Here you need to fill out the grid to create the formula used to calculate how many points to assign to each player. If the attribute is not to be used in the formula just leave the value as 0, you can only use numeric attributes too!</p>
+                            <p>For example if I was doing this for Ultimate Frisbee then I'd maybe give Cutting a value of 2 and Handling a value of 2 then I'd hit generate formula. This'd give me (Cutting * 2) + (Handling * 2). You can't manually edit the formula, you have to use the grid!</p>
                         </div>
                         <div class="dataContainerRow">
                             <table id="metrics"><tr><td/></tr></table>
                             <div id="metricsPager"></div>
                             <input type="button" value="Generate formula" class="formButton" id="generateFormula" />
-                        </div>    
+                        </div>
                         <div class="dataContainerRow">
                             <div class="clearfix">
                                 <span class="dataContainerLabel">Formula:</span>
@@ -172,8 +148,7 @@
                                 <span class="dataContainerLabel">Balance attributes:</span>
                                 <input type="checkbox" id="attributes" />
                             </div>
-                            <div class="clearfix" id="attributeSelection" style="display: none">
-                            </div>
+                            <div class="clearfix" id="attributeSelection" style="display: none"></div>
                             <div class="clearfix">
                                 <input type="button" value="Generate Teams" id="generateTeams" class="formButton" />
                             </div>

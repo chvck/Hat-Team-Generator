@@ -1,7 +1,7 @@
 from csv import DictReader
 from time import strftime
 
-from flask import Flask, jsonify, redirect, request, url_for, send_from_directory
+from flask import Flask, jsonify, redirect, request, url_for, send_from_directory, render_template
 
 from utils import allowed_file, qsort, split_players, teamify
 
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def main():
-    return redirect(url_for('static', filename='index.html'))
+    return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
