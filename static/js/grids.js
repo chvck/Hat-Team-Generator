@@ -80,7 +80,7 @@ var onclickSubmitLocal = function(options,postdata) {
             grid.trigger("reloadGrid", [{current:true}]);
         },100);
     }
-
+	
     // !!! the most important step: skip ajax request to the server
     this.processing = true;
     return {};
@@ -102,7 +102,8 @@ addSettings = {
     reloadAfterSubmit:false,
     savekey: [true,13],
     closeOnEscape:true,
-    closeAfterAdd:true,
+    closeAfterEdit:true,
+    beforeShowForm: setGrid,
     onclickSubmit:onclickSubmitLocal
 },
 delSettings = {
