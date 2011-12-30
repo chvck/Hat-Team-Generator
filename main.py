@@ -1,5 +1,6 @@
 from os.path import abspath, dirname, join
 from time import strftime
+from random import choice
 
 from flask import Flask, request, send_from_directory, render_template, jsonify, session
 
@@ -31,31 +32,61 @@ def generate():
     players = request.json['players']
     if len(players) < 2:
         return jsonify({'status': 'failed', 'message': 'You might want a few more players, must have 2 or more.'})
-        
-    number_teams = int(request.json['numTeams'])
+    
+    number_teams = 0
+    try:    
+        number_teams = int(request.json['numTeams'])
+    except ValueError:
+        return jsonify({'status': 'failed', 'message': 'Helps if the number of teams is numeric.'})
     if number_teams < 2:
         return jsonify({'status': 'failed', 'message': 'Too few teams, must have 2 or more.'})
         
-    players_per_team = len(players) / number_teams
-    ranked_players = []
+    players_per_team = len(players) // number_teams
+    if players_per_team < 1:
+        return jsonify({'status': 'failed', 'message': 'Too few teams, must have 1 player per team or more.'})
+        
     formula = {}
-    columns = request.json['columns']
-    for column in columns:
-        if int(columns[column]) != 0:
-            formula[column.strip()] = int(columns[column])
-    total_points = 0
+    attributes = request.json['columns']
+    try:
+        for attribute in attributes:
+            value = attributes[attribute]
+            if float(value) != 0.0:
+                formula[attribute] = float(value)
+    except ValueError:
+        return jsonify({'status': 'failed', 'message': 'You entered a non-numeric metric value didn\'t you?'})
+    
+    try:
+        gender_column = request.json['genderColumn']
+    except KeyError:
+        gender_column = None
+        
+    if gender_column is not None:
+        gender_format = request.json['genderFormat']
+        if gender_format == 'M':
+            gender_format = ['M', 'F', 'U']
+        else:
+            gender_format = ['Male', 'Female', 'Unknown']
+
+    total_points = 0.0
     for player in players:
-        player_points = 0
+        player_points = 0.0
         for attribute in player:
-            if formula.has_key(attribute.strip()):
-                player_points += (int(player[attribute]) * formula[attribute.strip()])
+            if attribute in formula:
+                try:
+                    player_points += (float(player[attribute]) * formula[attribute])
+                except ValueError:
+                    player_points += 0
         player['points'] = player_points
         total_points += player_points
+        
     ranked_players = qsort(players)
     ranked_players = split_players(ranked_players, number_teams)
+    for p in ranked_players:
+        print len(p)
 
     teams = teamify(ranked_players, number_teams, total_points)
 
+    num_players = 0
     for team in teams:
         points = 0
         for player in team['players']:
@@ -63,12 +94,14 @@ def generate():
             points += player['points']
         print points
         print team['points']
+        num_players += len(team['players'])
         print ''
+    print num_players
 
     filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
     with open('downloads/' + filename, 'w') as team_file:
         line = 'Team,'
-        for column in columns:
+        for column in attributes:
             line = line + column + ','
         line = line + 'Points' + '\n'
         team_file.write(line)
@@ -76,7 +109,7 @@ def generate():
             points = 0
             for player in team['players']:
                 line = str(teams.index(team)) + ','
-                for column in columns:
+                for column in attributes:
                     line = line + str(player[column]) + ','
                 line = line + str(player['points']) + '\n'
                 team_file.write(line)

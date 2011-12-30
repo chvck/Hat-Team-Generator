@@ -90,13 +90,15 @@ $(function() {
         });
         
         $('#generateReturnStatus').slideUp();
+        $('#downloadTeams').slideUp();
+               
+        console.log(playerData);
                 
         $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
     var playerDataCallback = function(data, textStatus, jqXHR) {
         $returnStatus = $('#generateReturnStatus');
-        $('downloadTeams').slideUp();
         if (data.status == 'failed') {
             $returnStatus.removeAttr('class')
                 .attr('class', 'alert-message error')

@@ -29,8 +29,10 @@ def split_players(players, num_teams):
     creating the teams we can pick 1 player from each list for each team
     TODO: test this with a number of teams not exactly divisible by num_teams
     """
-    return [players[i*num_teams: (i+1)*num_teams]
+    split = [players[i*num_teams: (i+1)*num_teams]
             for i in xrange(len(players) // num_teams)]
+    split.append(players[0-(len(players) % num_teams): len(players)])
+    return split
 
 def teamify(players, num_teams, total_points):
     """
@@ -50,19 +52,20 @@ def teamify(players, num_teams, total_points):
         teams.append({'players': [], 'points': points_per_team})
 
     for list_players in players:
-        if len(list_players) > 0:
-            for team in teams:
-                index = weighted_rand(teams.index(team) + 1, len(list_players)) - 1
-                team['players'].append(list_players[index])
-                team['points'] -= list_players[index]['points']
-                list_players.pop(index)
-            #if len(list_players) > 0:
-            #    for i in xrange(len(list_players)):
-            #        index = random.randint(0, len(teams)-1)
-            #        teams[index]['players'].append(list_players[0])
-            #        #team['points'] -= list_players[0]['points']
-            #        list_players.pop(0)
-            teams = qsort(teams)
+        for team in teams:
+            if len(list_players) == 0:
+                break
+            index = weighted_rand(teams.index(team) + 1, len(list_players)) - 1
+            team['players'].append(list_players[index])
+            team['points'] -= list_players[index]['points']
+            list_players.pop(index)
+        #if len(list_players) > 0:
+        #    for i in xrange(len(list_players)):
+        #        index = random.randint(0, len(teams)-1)
+        #        teams[index]['players'].append(list_players[0])
+        #        #team['points'] -= list_players[0]['points']
+        #        list_players.pop(0)
+        teams = qsort(teams)
     return teams
 
 def weighted_rand(weight, size):
@@ -70,3 +73,114 @@ def weighted_rand(weight, size):
     rand = random.random() #0-1, never actually generates 1
     return size - int(size * pow(rand, weight))
 
+#load of useful code i dont want to get rid of just yet
+    #balanced_attributes = request.json('balanceAttributes')
+    #
+    #total_points = 0.0
+    #ranked_players = {}
+    #if gender_column is not None and len(balanced_attributes > 0):
+    #    for gender in gender_format:
+    #        this_gender = {}
+    #        for attribute in balanced_attributes:
+    #            this_gender[attribute] = []
+    #        ranked_players[gender] = this_gender
+    #        
+    #    for player in players:
+    #        player_points = 0.0
+    #        highest_attribute_value = None
+    #        highest_attribute_index = []
+    #                            
+    #        gender = ''
+    #        try:
+    #            gender = gender_format[gender_format.index(player[gender_column])]
+    #        except ValueError:
+    #            gender = gender_format[2]
+    #        for attribute in player:
+    #            stripped_attribute = attribute.strip()
+    #            if stripped_attribute in formula:
+    #                try:
+    #                    player_points += (float(player[attribute]) * formula[stripped_attribute])
+    #                except ValueError:
+    #                    player_points += 0
+    #
+    #            if attribute in ranked_players[gender]:
+    #                if player[attribute] > highest_attribute_value:
+    #                    highest_attribute_index = [attribute]
+    #                    highest_attribute_value = player[attribute]
+    #                elif player[attribute] == highest_attribute_value:
+    #                    highest_attribute_index.append(player[attribute])
+    #        attribute_list = random.choice(highest_attribute_index)
+    #        ranked_players[gender][attribute_list].append(player)
+    #        
+    #        player['points'] = player_points
+    #        total_points += player_points
+    #elif gender_column is not None and len(balanced_attributes == 0):
+    #    for gender in gender_format:
+    #        ranked_players[gender] = []
+    #
+    #    for player in players:
+    #        player_points = 0.0
+    #        highest_attribute_value = None
+    #        highest_attribute_index = []
+    #                            
+    #        gender = ''
+    #        try:
+    #            gender = gender_format[gender_format.index(player[gender_column])]
+    #        except ValueError:
+    #            gender = gender_format[2]
+    #        for attribute in player:
+    #            stripped_attribute = attribute.strip()
+    #            if stripped_attribute in formula:
+    #                try:
+    #                    player_points += (float(player[attribute]) * formula[stripped_attribute])
+    #                except ValueError:
+    #                    player_points += 0
+    #
+    #        ranked_players[gender].append(player)            
+    #        player['points'] = player_points
+    #        total_points += player_points
+    #elif gender_column is None and len(balanced_attributes > 0):
+    #    for attribute in balanced_attributes:
+    #        ranked_players[attribute] = []
+    #        
+    #    for player in players:
+    #        player_points = 0.0
+    #        highest_attribute_value = None
+    #        highest_attribute_index = []
+    #                            
+    #        for attribute in player:
+    #            stripped_attribute = attribute.strip()
+    #            if stripped_attribute in formula:
+    #                try:
+    #                    player_points += (float(player[attribute]) * formula[stripped_attribute])
+    #                except ValueError:
+    #                    player_points += 0
+    #
+    #            if attribute in ranked_players[gender]:
+    #                if player[attribute] > highest_attribute_value:
+    #                    highest_attribute_index = [attribute]
+    #                    highest_attribute_value = player[attribute]
+    #                elif player[attribute] == highest_attribute_value:
+    #                    highest_attribute_index.append(player[attribute])
+    #        attribute_list = random.choice(highest_attribute_index)
+    #        ranked_players[attribute_list].append(player)
+    #        
+    #        player['points'] = player_points
+    #        total_points += player_points
+    #else:
+    #    ranked_players = []
+    #    
+    #    total_points = 0.0
+    #    for player in players:
+    #        player_points = 0.0
+    #        for attribute in player:
+    #            stripped_attribute = attribute.strip()
+    #            if stripped_attribute in formula:
+    #                try:
+    #                    player_points += (float(player[attribute]) * formula[stripped_attribute])
+    #                except ValueError:
+    #                    player_points += 0
+    #        player['points'] = player_points
+    #        total_points += player_points
+    #        ranked_players.append(player)
+    #
