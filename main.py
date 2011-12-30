@@ -25,7 +25,7 @@ def upload():
 @app.route('/test', methods=['POST'])
 def test_csv():
     session['uploaded_filename'] = secure_filename('testing')
-    return jsonify_csv(open(join(abspath(dirname(__file__)), 'test/test_hat_standard.txt'), 'r'))
+    return jsonify_csv(open(join(abspath(dirname(__file__)), 'test/test_hat_genders.txt'), 'r'))
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -54,7 +54,8 @@ def generate():
                 formula[attribute] = float(value)
     except ValueError:
         return jsonify({'status': 'failed', 'message': 'You entered a non-numeric metric value didn\'t you?'})
-    
+
+        
     try:
         gender_column = request.json['genderColumn']
     except KeyError:
@@ -66,6 +67,9 @@ def generate():
             gender_format = ['M', 'F', 'U']
         else:
             gender_format = ['Male', 'Female', 'Unknown']
+        genders = {}
+        for gender in gender_format:
+            genders[gender] = []    
 
     total_points = 0.0
     for player in players:
@@ -78,11 +82,19 @@ def generate():
                     player_points += 0
         player['points'] = player_points
         total_points += player_points
-        
-    ranked_players = qsort(players)
-    ranked_players = split_players(ranked_players, number_teams)
-    for p in ranked_players:
-        print len(p)
+        if gender_column is not None:
+            try:
+                genders[player[gender_column]].append(player)
+            except KeyError:
+                genders[gender_format[2]].append(player)
+                
+    ranked_players = []
+    if gender_column is not None:
+        for gender in genders:
+            for split in split_players(qsort(genders[gender]), number_teams):
+                ranked_players.append(split)
+    else:
+        ranked_players = split_players(qsort(players), number_teams)
 
     teams = teamify(ranked_players, number_teams, total_points)
 

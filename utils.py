@@ -27,7 +27,6 @@ def split_players(players, num_teams):
     """
     This splits the players into several lists of the size num_teams, this means that when
     creating the teams we can pick 1 player from each list for each team
-    TODO: test this with a number of teams not exactly divisible by num_teams
     """
     split = [players[i*num_teams: (i+1)*num_teams]
             for i in xrange(len(players) // num_teams)]
@@ -59,12 +58,6 @@ def teamify(players, num_teams, total_points):
             team['players'].append(list_players[index])
             team['points'] -= list_players[index]['points']
             list_players.pop(index)
-        #if len(list_players) > 0:
-        #    for i in xrange(len(list_players)):
-        #        index = random.randint(0, len(teams)-1)
-        #        teams[index]['players'].append(list_players[0])
-        #        #team['points'] -= list_players[0]['points']
-        #        list_players.pop(0)
         teams = qsort(teams)
     return teams
 

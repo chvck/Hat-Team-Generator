@@ -92,8 +92,6 @@ $(function() {
         $('#generateReturnStatus').slideUp();
         $('#downloadTeams').slideUp();
                
-        console.log(playerData);
-                
         $.ajax({type: 'POST', contentType: 'application/json', url: '/generate', data: $.toJSON(playerData), success: playerDataCallback, dataType: 'json'});
     });
 
@@ -166,7 +164,7 @@ $(function() {
         createMetricsGrid();
         
         createGenderRadios(colNames);
-        createAttributeCheckboxes(colNames);
+        //createAttributeCheckboxes(colNames);
         
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
@@ -232,7 +230,7 @@ $(function() {
         createMetricsGrid(colNames);
         
         createGenderRadios(colNames);
-        createAttributeCheckboxes(colNames);
+        //createAttributeCheckboxes(colNames);
         
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
