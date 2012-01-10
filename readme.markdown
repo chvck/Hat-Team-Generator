@@ -7,6 +7,6 @@ out of a hat. Obviously in principle that method creates unbalanced teams, this 
 tries to create teams as balanced as possible.
 
 ## TODO
-- Wire gender and attribute balancing into the back end
-- Add a load of error handling providing useful feedback to the user
-- Bucket loads of testing
+- Wire attribute balancing into the back end, need to think if going to do this first
+- Fix up the css
+- test in i-bloody-e
