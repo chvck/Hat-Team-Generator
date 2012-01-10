@@ -51,7 +51,7 @@ $(function() {
         formula = '';
         for (var i = 0; i < data.length; i++) {
             var row = data[i];
-            if (isNumber(row.value) && row.value > 0 && row.name != 'Number of Teams') {
+            if (isNumber(row.value) && row.value != 0 && row.name != 'Number of Teams') {
                 formula = formula + ' (' + row.name + ' * ' + row.value + ') +';
             }
         }
@@ -237,10 +237,10 @@ $(function() {
         dataReady = true;
         
         //testing
-        $('#inputTypeBody').slideUp();
-        $('#introductionBody').slideUp();
-        $('#gridBody').slideUp();
-        $('#metricsGridBody').slideDown();
+        //$('#inputTypeBody').slideUp();
+        //$('#introductionBody').slideUp();
+        //$('#gridBody').slideUp();
+        //$('#metricsGridBody').slideDown();
     }
     
     //This interrupts the form submission and fires it voodoo which allows us to

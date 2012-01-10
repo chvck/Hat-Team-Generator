@@ -7,8 +7,7 @@ from flask import jsonify
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def jsonify_csv(csv_file):
     players = {i: row for i, row in enumerate(DictReader(csv_file))}
@@ -30,6 +29,7 @@ def split_players(players, num_teams):
     """
     split = [players[i*num_teams: (i+1)*num_teams]
             for i in xrange(len(players) // num_teams)]
+    #need to do this in order to pick up any remaining players that didn't fit into a complete list
     split.append(players[0-(len(players) % num_teams): len(players)])
     return split
 
@@ -50,21 +50,24 @@ def teamify(players, num_teams, total_points):
     for i in xrange(num_teams):
         teams.append({'players': [], 'points': points_per_team})
 
-    for list_players in players:
+    for list_of_players in players:
         for team in teams:
-            if len(list_players) == 0:
+            list_length = len(list_of_players)
+            if len(list_of_players) == 0:
                 break
-            index = weighted_rand(teams.index(team) + 1, len(list_players)) - 1
-            team['players'].append(list_players[index])
-            team['points'] -= list_players[index]['points']
-            list_players.pop(index)
+            #this won't cause the assigment of players to change much from the list order
+            #but does add a bit of variation
+            index = weighted_rand(teams.index(team), list_length - 1)
+            current_player = list_of_players[index]
+            team['players'].append(current_player)
+            team['points'] -= current_player['points']
+            list_of_players.pop(index)
         teams = qsort(teams)
     return teams
 
 def weighted_rand(weight, size):
     random.seed()
-    rand = random.random() #0-1, never actually generates 1
-    return size - int(size * pow(rand, weight))
+    return size - int(size * pow(random.random(), weight))
 
 #load of useful code i dont want to get rid of just yet
     #balanced_attributes = request.json('balanceAttributes')

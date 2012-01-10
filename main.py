@@ -79,13 +79,15 @@ def generate():
                 try:
                     player_points += (float(player[attribute]) * formula[attribute])
                 except ValueError:
-                    player_points += 0
+                    #don't really care if this happens, we just need to prevent it breaking the app
+                    pass   
         player['points'] = player_points
         total_points += player_points
         if gender_column is not None:
             try:
                 genders[player[gender_column]].append(player)
             except KeyError:
+                #incorrect value in the gender column so add to unknown
                 genders[gender_format[2]].append(player)
                 
     ranked_players = []
@@ -98,17 +100,17 @@ def generate():
 
     teams = teamify(ranked_players, number_teams, total_points)
 
-    num_players = 0
-    for team in teams:
-        points = 0
-        for player in team['players']:
-            print player
-            points += player['points']
-        print points
-        print team['points']
-        num_players += len(team['players'])
-        print ''
-    print num_players
+    #num_players = 0
+    #for team in teams:
+    #    points = 0
+    #    for player in team['players']:
+    #        print player
+    #        points += player['points']
+    #    print points
+    #    print team['points']
+    #    num_players += len(team['players'])
+    #    print ''
+    #print num_players
 
     filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
     with open('downloads/' + filename, 'w') as team_file:
@@ -129,13 +131,14 @@ def generate():
             team_file.write('Total team points: %s, Average player player points: %s\n' % (
                             str(points), str(points/len(team['players']))))
 
-    #print (teams)
-    #teams['length'] = len(teams)
     session['filename'] = filename
     return jsonify({'status': 'success'})
     
 @app.route('/download', methods=['POST'])
 def download():
+    """
+    We can't send the download to the js callback after creating the teams so do it here
+    """
     return send_from_directory('downloads', session['filename'], as_attachment=True, mimetype='text/csv')
 
 if __name__ == '__main__':
