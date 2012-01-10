@@ -276,7 +276,4 @@ $(function() {
     var testGenerate = function() {
         $.post('/test', {}, fileUploadCallback);
     };
-    
-    testGenerate();
-    //manualTest();
 });
