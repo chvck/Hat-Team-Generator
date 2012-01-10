@@ -235,15 +235,9 @@ $(function() {
         $('#gridBody').slideDown();
         $('#inputTypeBody').slideUp();
         dataReady = true;
-        
-        //testing
-        //$('#inputTypeBody').slideUp();
-        //$('#introductionBody').slideUp();
-        //$('#gridBody').slideUp();
-        //$('#metricsGridBody').slideDown();
     }
     
-    //This interrupts the form submission and fires it voodoo which allows us to
+    //This interrupts the form submission and does voodoo which allows us to
     //add a callback meaning the page doesn't need to refresh 
     $('#formFileUpload').ajaxForm({
         success: fileUploadCallback,
