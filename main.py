@@ -16,9 +16,9 @@ except ImportError:
 
 
 app = Flask(__name__)
-app.secret_key = local_settings.secret_key or '<insertsomethingsecret>'
+app.secret_key = secret_key or '<insertsomethingsecret>'
 
-app.debug = local_settings.debug or False
+app.debug = debug or False
 
 if app.config['DEBUG']:
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
