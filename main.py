@@ -7,9 +7,14 @@ from flask import Flask, request, send_from_directory, render_template, jsonify,
 from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
 from werkzeug import secure_filename
+from werkzeug.wsgi import SharedDataMiddleware
 
 app = Flask(__name__)
 app.secret_key = '<insertsomethingsecret>'
+
+app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+    '/': join(dirname(__file__), 'static')
+})
 
 @app.route('/', methods=['GET'])
 def main():
@@ -142,5 +147,5 @@ def download():
     return send_from_directory('downloads', session['filename'], as_attachment=True, mimetype='text/csv')
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
 
