@@ -2,7 +2,7 @@ from os.path import abspath, dirname, join
 from time import strftime
 from random import choice
 
-from flask import Flask, request, send_from_directory, render_template, jsonify, session
+from flask import Flask, request, send_from_directory, render_template, jsonify, session, url_for
 
 from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
@@ -121,7 +121,7 @@ def generate():
     #print num_players
 
     filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
-    with open('downloads/' + filename, 'w') as team_file:
+    with open('static/downloads/' + filename, 'w') as team_file:
         line = 'Team,'
         for column in attributes:
             line = line + column + ','
@@ -147,7 +147,7 @@ def download():
     """
     We can't send the download to the js callback after creating the teams so do it here
     """
-    return send_from_directory('downloads', session['filename'], as_attachment=True, mimetype='text/csv')
+    return send_from_directory('static/downloads', session['filename'], as_attachment=True, mimetype='text/csv')
 
 if __name__ == '__main__':
     app.run()

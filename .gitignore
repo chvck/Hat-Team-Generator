@@ -1,2 +1,3 @@
 hat team site.komodoproject
-downloads
+static/downloads/*
+!static/downloads/.gitkeep
