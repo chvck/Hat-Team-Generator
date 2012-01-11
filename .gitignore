@@ -1,3 +1,5 @@
 hat team site.komodoproject
 static/downloads/*
 !static/downloads/.gitkeep
+*.pyc
+app.pid
