@@ -12,6 +12,8 @@ from werkzeug.wsgi import SharedDataMiddleware
 app = Flask(__name__)
 app.secret_key = '<insertsomethingsecret>'
 
+app.debug = True
+
 if app.config['DEBUG']:
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
         '/': join(dirname(__file__), 'static')
@@ -148,5 +150,5 @@ def download():
     return send_from_directory('downloads', session['filename'], as_attachment=True, mimetype='text/csv')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
