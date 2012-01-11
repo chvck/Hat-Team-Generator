@@ -12,9 +12,10 @@ from werkzeug.wsgi import SharedDataMiddleware
 app = Flask(__name__)
 app.secret_key = '<insertsomethingsecret>'
 
-app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
-    '/': join(dirname(__file__), 'static')
-})
+if app.config['DEBUG']:
+    app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+        '/': join(dirname(__file__), 'static')
+    })
 
 @app.route('/', methods=['GET'])
 def main():
