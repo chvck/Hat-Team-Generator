@@ -3,3 +3,4 @@ static/downloads/*
 !static/downloads/.gitkeep
 *.pyc
 app.pid
+local_settings.py

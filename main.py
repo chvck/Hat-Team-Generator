@@ -9,10 +9,16 @@ from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 from werkzeug import secure_filename
 from werkzeug.wsgi import SharedDataMiddleware
 
-app = Flask(__name__)
-app.secret_key = '<insertsomethingsecret>'
+try:
+    from local_settings import *
+except ImportError:
+    pass
 
-app.debug = True
+
+app = Flask(__name__)
+app.secret_key = local_settings.secret_key or '<insertsomethingsecret>'
+
+app.debug = local_settings.debug or False
 
 if app.config['DEBUG']:
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
