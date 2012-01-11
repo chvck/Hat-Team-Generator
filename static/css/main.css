@@ -1,5 +1,5 @@
 html, body {
-    background: #E8E3E7;
+    background: #EBEBEB;
     height: 600px;
 }
 input {
@@ -10,7 +10,7 @@ input {
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 header {
-    background-color: #E8E3E5;
+    background-color: #FFF;
     border-bottom: 1px solid #bbb;
     padding: 20px 20px 5px;
     text-align: center;
@@ -19,7 +19,7 @@ header {
 header h1 {
 }
 #bodyContent {
-    background-color: #fde9f3;
+    background-color: #FFF;
     padding: 20px 0 15px;
 }
 .dataContainer {
@@ -27,7 +27,7 @@ header h1 {
     border: 1px solid #bbb;
 }
 .dataContainerHeader {
-    background-color: #E8E3E5;
+    background-color: #EBEBEB;
     border-bottom: 1px solid #bbb;
     height: 25px;
     padding-left: 5px;
@@ -96,7 +96,7 @@ label {
     float: none;
 }
 footer {
-    background-color: #e9fdf3;
+    background-color: #FFF;
     margin: 0;
     border-top: 1px solid #bbb;
     padding-bottom: 5px;
