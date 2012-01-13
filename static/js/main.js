@@ -19,6 +19,10 @@ $(function() {
     };
     
     //Click events
+    $('#downloadExample').click(function() {
+        $('#formDownloadExample').submit();
+    })
+    
     $('#gridHeader').click(function() {
         if (dataReady) {
             $('#gridBody').slideToggle();

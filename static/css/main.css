@@ -161,3 +161,7 @@ footer {
 .modalInput {
     margin-left: 15px;
 }
+#downloadExample {
+    color: blue;
+    cursor: pointer;
+}
