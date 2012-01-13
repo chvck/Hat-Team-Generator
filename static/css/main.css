@@ -131,3 +131,9 @@ footer {
 .alert-message {
     margin: 10px;
 }
+#mwnciBanner {
+    margin-top: 10px;
+    width: 640px;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+}
