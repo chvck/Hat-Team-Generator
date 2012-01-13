@@ -161,7 +161,7 @@ $(function() {
         //make the players grid
         initGrid($playersGrid, colNames, colModel, 890, 500, {refresh: false}, '#pager')
         
-        createMetricsGrid();
+        createMetricsGrid(colNames);
         
         createGenderRadios(colNames);
         //createAttributeCheckboxes(colNames);
