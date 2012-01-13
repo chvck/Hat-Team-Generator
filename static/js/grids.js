@@ -93,6 +93,7 @@ editSettings = {
     closeOnEscape:true,
     savekey: [true,13],
     closeAfterEdit:true,
+    width: "auto",
     beforeShowForm: setGrid,
     onclickSubmit:onclickSubmitLocal
 },
@@ -104,6 +105,7 @@ addSettings = {
     closeOnEscape:true,
     closeAfterEdit:true,
     beforeShowForm: setGrid,
+    width: "auto",
     onclickSubmit:onclickSubmitLocal
 },
 delSettings = {
@@ -141,6 +143,7 @@ delSettings = {
 
         return true;
     },
+    width: "auto",
     processing:true
 },
 initDateEdit = function(elem) {

@@ -12,13 +12,14 @@ input {
 header {
     background-color: #FFF;
     border-bottom: 1px solid #bbb;
-    padding: 20px 20px 5px;
+    padding: 15px 20px 0px;
     text-align: center;
 }
 
 header h1 {
     display: inline-block;
     margin-left: 200px;
+    line-height: 50px;
 }
 #bodyContent {
     background-color: #FFF;
