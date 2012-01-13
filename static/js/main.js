@@ -53,7 +53,7 @@ $(function() {
     
     $('#generateFormula').click(function() {
         var data = $metricsGrid.getRowData();
-        formula = '';
+        var formula = '';
         for (var i = 0; i < data.length; i++) {
             var row = data[i];
             if (isNumber(row.value) && row.value != 0 && row.name != 'Number of Teams') {
