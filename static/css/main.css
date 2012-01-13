@@ -17,6 +17,8 @@ header {
 }
 
 header h1 {
+    display: inline-block;
+    margin-left: 200px;
 }
 #bodyContent {
     background-color: #FFF;
@@ -132,8 +134,7 @@ footer {
     margin: 10px;
 }
 #mwnciBanner {
-    margin-top: 10px;
-    width: 640px;
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    width: 200px;
+    border: 1px solid #bbb;
+    float: right;
 }
