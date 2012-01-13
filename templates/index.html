@@ -56,7 +56,6 @@
                             <label for="inputTypeManual" class="dataContainerRadioLabel">Manual Entry</label>
                         </div>
                         <div id="uploadOptions">
-                            <form id="formFileUpload" action="/upload" enctype="multipart/form-data" method="POST">
                                 <!--<div class="dataContainerRow" id="inputTypeDelimiterRow">
                                     <span class="dataContainerLabel">Select a delimiter:</span>
                                     <input type="radio" class="dataContainerRadio" name="delimiter" id="delimiterComma" value="comma" checked />
@@ -68,6 +67,13 @@
                                 </div>-->
                                 <div class="dataContainerRow" id="inputTypeUploadRow">
                                     <p>If I was nice I'd maybe let you select the file delimiter here. I'm not though, so make sure it's comma delimited.</p>
+                                    <p>I am, however, nice enough to give you an example csv to download:</p>
+                                    <form id="formDownloadExample" action="/example" enctype="multipart/form-data" method="POST">
+                                        <input type="submit" value="Download Example" class="formButton" />
+                                    </form>
+                                </div>
+                            <form id="formFileUpload" action="/upload" enctype="multipart/form-data" method="POST">
+                                <div class="dataContainerRow" id="inputTypeUploadRow">
                                     <span class="dataContainerLabel">Select a file:</span>
                                     <input type="file" class="fileUpload" name="inputCSV" />
                                 </div>

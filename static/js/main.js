@@ -18,7 +18,7 @@ $(function() {
         return keys;
     };
     
-    //Click events    
+    //Click events
     $('#gridHeader').click(function() {
         if (dataReady) {
             $('#gridBody').slideToggle();

@@ -48,6 +48,9 @@ def email():
         
     return ''
 
+@app.route('/example', methods=['POST'])
+def example():
+    return send_from_directory('static/example', 'example.csv', as_attachment=True, mimetype='text/csv')
 
 @app.route('/upload', methods=['POST'])
 def upload():
