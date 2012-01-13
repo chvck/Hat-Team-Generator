@@ -1,8 +1,11 @@
 from os.path import abspath, dirname, join
 from time import strftime
 from random import choice
+import sys
 
 from flask import Flask, request, send_from_directory, render_template, jsonify, session, url_for
+
+from flaskext.mail import Mail, Message
 
 from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
@@ -20,6 +23,8 @@ app.secret_key = secret_key or '<insertsomethingsecret>'
 
 app.debug = debug or False
 
+mail = Mail(app)
+
 if app.config['DEBUG']:
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
         '/': join(dirname(__file__), 'static')
@@ -28,6 +33,21 @@ if app.config['DEBUG']:
 @app.route('/', methods=['GET'])
 def main():
     return render_template('index.html')
+
+@app.route('/email', methods=['POST'])
+def email():
+    try:
+        msg = Message('Message from Hat Team Generator',
+                      body = 'From ' + request.form['name'] + ', message is:\n' + request.form['message'],
+                      sender=request.form['email'],
+                      recipients=[email_address])
+    
+        mail.send(msg)
+    except Exception:
+        print 'Something went wrong sending an email:', sys.exc_info()[0]
+        
+    return ''
+
 
 @app.route('/upload', methods=['POST'])
 def upload():

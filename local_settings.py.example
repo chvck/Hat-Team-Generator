@@ -1,2 +1,3 @@
 secret_key = '<insertsomethingsecret>'
 debug = True
+email_address='email@address.com'

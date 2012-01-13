@@ -168,8 +168,29 @@
                     </div>
                 </div>
             <footer>
-                <span>&copy; Charles Dixon 2012</span>
+                <span>&copy; Charles Dixon 2012 | </span>
+                <span id="contactMe">Contact Me</span>
             </footer>
+            <div id="dialog-form" title="Contact">
+                <p id="modalValidateMessage" class="validateTips">All form fields are required.</p>
+            
+                <form id="formEmail" action="/email" method="post">
+                    <fieldset>
+                        <div class="clearfix">
+                            <label id="modalNameLabel" class="modalLabel" for="name">Name</label>
+                            <input type="text" name="name" id="modalName" class="modalInput text ui-widget-content ui-corner-all" />
+                        </div>
+                        <div class="clearfix">
+                            <label id="modalEmailLabel" class="modalLabel" for="email">Email</label>
+                            <input type="text" name="email" id="modalEmail" value="" class="modalInput text ui-widget-content ui-corner-all" />
+                        </div>
+                        <div class="clearfix">
+                            <label id="modalMessageLabel" class="modalLabel" for="message">Message</label>
+                            <textarea id="modalMessage" name="message" rows="10" value="" class="modalInput text ui-widget-content ui-corner-all"></textarea>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </body>
 </html>
