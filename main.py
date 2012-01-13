@@ -155,7 +155,12 @@ def generate():
     #    print ''
     #print num_players
 
-    filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
+    #it is possible for uploaded_filename to be stored from a previous run without reloading page
+    #this just means that the manual mode will have a name for the file, doesn't really matter
+    try:
+        filename = session['uploaded_filename'] + '-' + '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
+    except KeyError:
+        filename = '%s.csv' % strftime('%Y-%m-%d %H-%M-%S')
     with open('static/downloads/' + filename, 'w') as team_file:
         line = 'Team,'
         for column in attributes:
