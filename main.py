@@ -51,10 +51,16 @@ def email():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    data = request.files['inputCSV']
-    session['uploaded_filename'] = secure_filename(data.filename)
-    if data and allowed_file(data.filename):
-        return jsonify_csv(data)
+    if not request.files:
+        return jsonify({'status': 'missing'})
+    try:
+        data = request.files['inputCSV']
+        session['uploaded_filename'] = secure_filename(data.filename)
+        if data and allowed_file(data.filename):
+            return jsonify_csv(data)
+    except Exception:
+        print sys.exc_info()[0]
+        return jsonify({'status': 'failed', 'message': 'Something went wrong trying to parse your csv file.'})
 
 @app.route('/test', methods=['POST'])
 def test_csv():

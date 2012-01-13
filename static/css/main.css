@@ -131,6 +131,13 @@ footer {
 .formButton {
     margin-left: 150px;
 }
+.formButton:hover {
+    border-color: black;
+    color: black;
+}
+.formButton:active {
+    background-color: green;
+}
 .alert-message {
     margin: 10px;
 }

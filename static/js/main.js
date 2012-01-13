@@ -3,6 +3,7 @@ $(function() {
     var $playersGrid = $("#players");
     var $metricsGrid = $('#metrics');
     var $teamsGrid = $('#teams');
+    var $uploadError = $('#uploadReturnError');
     
     //Utility functions
     var isNumber = function(n) {
@@ -60,8 +61,8 @@ $(function() {
         } 
     });
     
-    $( "#contactMe" ).click(function() {
-        $( "#dialog-form" ).dialog("open");
+    $('#contactMe').click(function() {
+        $('#dialog-form').dialog('open');
     });
     
     $('#generateTeams').click(function() {
@@ -104,12 +105,12 @@ $(function() {
         if (data.status == 'failed') {
             $returnStatus.removeAttr('class')
                 .attr('class', 'alert-message error')
-                .html('<p><strong>Error! </strong>' + data.message + '</p>')
+                .html('<span><strong>Error! </strong>' + data.message + '</span>')
                 .slideDown();    
         } else {
             $returnStatus.removeAttr('class')
                 .attr('class', 'alert-message success')
-                .html('<p><strong>Success!</strong> Your brand spanking new csv file is ready for download below!')
+                .html('<span><strong>Success!</strong> Your brand spanking new csv file is ready for download below!</span>')
                 .slideDown();
             $('#downloadTeams').slideDown();
         }
@@ -219,26 +220,32 @@ $(function() {
     }
     
     var fileUploadCallback = function(players) {
-        var colNames = getKeys(players[0]);
-        var width = 890;
-                
-        var colModel = createColModel(width, colNames);
-        initGrid($playersGrid, colNames, colModel, 890, 500, {}, '#pager')
-               
-        $playersGrid.clearGridData();
-        for (var i = 0; i < players.length; i++) {
-            $playersGrid.addRowData(i, players[i]);
+        if (players.status == 'failed') {
+            $uploadError.html('<span><strong>Error! </strong>' + players.message + '</span>')
+                .slideDown(); 
+        } else if (players.status == 'success') {
+            $uploadError.slideUp();
+            var colNames = getKeys(players[0]);
+            var width = 890;
+                    
+            var colModel = createColModel(width, colNames);
+            initGrid($playersGrid, colNames, colModel, 890, 500, {}, '#pager')
+                   
+            $playersGrid.clearGridData();
+            for (var i = 0; i < players.length; i++) {
+                $playersGrid.addRowData(i, players[i]);
+            }
+            $playersGrid.trigger('reloadGrid');
+            
+            createMetricsGrid(colNames);
+            
+            createGenderRadios(colNames);
+            //createAttributeCheckboxes(colNames);
+            
+            $('#gridBody').slideDown();
+            $('#inputTypeBody').slideUp();
+            dataReady = true;
         }
-        $playersGrid.trigger('reloadGrid');
-        
-        createMetricsGrid(colNames);
-        
-        createGenderRadios(colNames);
-        //createAttributeCheckboxes(colNames);
-        
-        $('#gridBody').slideDown();
-        $('#inputTypeBody').slideUp();
-        dataReady = true;
     }
     
     //This interrupts the form submission and does voodoo which allows us to

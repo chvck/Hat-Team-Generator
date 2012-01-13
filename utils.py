@@ -12,6 +12,7 @@ def allowed_file(filename):
 def jsonify_csv(csv_file):
     players = {i: row for i, row in enumerate(DictReader(csv_file))}
     players['length'] = len(players)
+    players['status'] = 'success'
     return jsonify(players)
 
 def qsort(slist):
