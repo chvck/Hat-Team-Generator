@@ -160,13 +160,14 @@ $(function() {
         
         //get the column names
         $('#enteredColumns option').each(function(i, element) {
-            var $column = $(element).val();      
+            var $column = $(element).val();
             colNames.push($column);
         });
-        
+                
         //we do colModel serparately so we can work out the width first
         var colModel = createColModel(width, colNames);
-        
+                
+        resetGrid($playersGrid);
         //make the players grid
         initGrid($playersGrid, colNames, colModel, 890, 500, {refresh: false}, '#pager')
         
@@ -233,6 +234,7 @@ $(function() {
             var width = 890;
                     
             var colModel = createColModel(width, colNames);
+            resetGrid($playersGrid);
             initGrid($playersGrid, colNames, colModel, 890, 500, {}, '#pager')
                    
             $playersGrid.clearGridData();

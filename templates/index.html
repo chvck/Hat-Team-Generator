@@ -37,7 +37,9 @@
                     </div>
                     <div class="dataContainerBody" id="introductionBody">
                         <p>This webpage is a tool for creating "hat" teams for tournaments. Hat tournaments are tournaments where individuals join rather than teams, all players names are put into a hat and teams are formed randomly by taking names from the hat. This tool aims to make that process as easy as possible, and fair - tournaments are no fun if you're just playing teams way better than yours!</p>
-                        <p>The way that this tool works is that you'll need to give players attributes such as skill level in this, skill level in that etc... As an example, in Ultimate Frisbee you might ask all players to provide their handling skill, cutting skill and number of years they've being playing. The best way to do this is to upload a csv with the column headers you want on the first line of the file and players on each row thereafter. You can also use this tool in manual mode but you'll have to sit there and enter all the player data yourself!</p>
+                        <p>The way that this tool works is that you'll need to provide a list of players. Each player can have multiple "attributes" such as their name, age and their level of skill in an areas that are key to the sport. As an example, in Ultimate Frisbee you might ask all players to provide their name, age, handling skill level, cutting skill level and number of years they've being playing.
+                        <p>The best way to do add the players is to upload a csv (example file: <span id="downloadExample">click here!</span>) with the column headers you want on the first line of the file and players on each row thereafter. You can also use this tool in manual mode but you'll have to sit there and enter all the player data yourself!</p>
+                        <p>Try not to refresh the page as you'll lose any data that you've entered and have to start from step 1 again! If something isn't working then please let me know.</p>
                         <p>The tool should be quite obvious to use but I'll include hints in each step to help you along. Also note that each step (this one included) has a clickable header where you can minimize (or maximize) the area, this helps to keep things easy to navigate. Go ahead, click the header of this area where it says 'Read this introduction' and get rid of all this text taking up space!</p>
                         <a href='#' id="introNextStep">Next Step!</a>
                     </div>
@@ -87,6 +89,7 @@
                             <div class="dataContainerRow">
                                 <p>Feeling brave then? Add each of the column names that you want. For example: Player name, Skill1, Skill2, SomethingElse.</p>
                                 <p>Make sure that you've thought about this before doing it, once you hit create you won't be able to alter the columns without losing any data you enter.</p>
+                                <p>In fact due to a current bug you'll need to reload the page and re-create the grid as updating the columns is refusing to work.</p>
                             </div>
                             <div class="dataContainerRow">
                                 <span class="dataContainerLabel">Column name:</span>
@@ -114,7 +117,7 @@
                             <p>Below is your grid, populated with your player data if you used a CSV, empty otherwise. It should be fairly straight forward to use, you can use the little icons and double click to edit rows. Feel free to change the column order by dragging the headers too. So it's down to you; add, edit, delete, whatever!</p>
                         </div>
                         <div class="dataContainerRow">
-                            <table id="players"><tr><td/></tr></table>
+                            <table id="players"></table>
                             <div id="pager"></div>
                         </div>
                         <a href='#' id="playersNextStep">Next Step!</a>

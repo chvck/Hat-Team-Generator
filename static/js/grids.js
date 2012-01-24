@@ -175,6 +175,10 @@ initDateSearch = function(elem) {
     },100);
 };
 
+var resetGrid = function(gridId) {
+    gridId.jqGrid('GridUnload');
+}
+
 var initGrid = function(gridId, colNames, colModel, width, height, navBar, pageId) {
     var lastSel = undefined;
     gridId.jqGrid({
