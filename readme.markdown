@@ -9,4 +9,3 @@ tries to create teams as balanced as possible.
 ## TODO
 - Wire attribute balancing into the back end, need to think if going to do this first
 - Fix up the css
-- test in i-bloody-e
