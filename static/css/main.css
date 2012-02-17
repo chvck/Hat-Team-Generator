@@ -18,8 +18,8 @@ header {
 
 header h1 {
     display: inline-block;
-    margin-left: 200px;
     line-height: 50px;
+    margin-left: 50px;
 }
 #bodyContent {
     background-color: #FFF;
@@ -145,6 +145,13 @@ footer {
     width: 200px;
     border: 1px solid #bbb;
     float: right;
+}
+
+#goldBanner {
+    width: 100px;
+    float: left;
+    height:  50px;
+    margin-left: 50px;
 }
 .validateTips {
     border: 1px solid transparent;
