@@ -7,7 +7,7 @@ out of a hat. Obviously in principle that method creates unbalanced teams, this 
 tries to create teams as balanced as possible.
 
 ## TODO
-- Wire attribute balancing into the back end - using a player object and setattr should cover this 
+- Wire attribute balancing into the back end - using a player object and setattr should cover this. Not as trivial as I had hoped, waiting for inspiration to strike.
 - Fix up the css
 
 ## Future
