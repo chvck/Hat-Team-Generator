@@ -8,6 +8,12 @@ tries to create teams as balanced as possible.
 
 ## TODO
 - Wire attribute balancing into the back end - using a player object and setattr should cover this. Not as trivial as I had hoped, waiting for inspiration to strike.
+ + Going to have to split the list of players into x number of lists where x is the number of attributes selected for balancing
+ + The list to put the player in will be determined by the players best attribute that is in the selected attributes
+ + What happens if 5 attributes are selected to use and a player has 3 that are equal best?
+ + Each list will be sorted from best to worst
+ + Have to consider if gender balancing is also selected as these lists will have to contained within gender lists too if so
+ + Come ooooon inspiration!
 - Fix up the css
 
 ## Future
