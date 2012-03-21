@@ -45,7 +45,7 @@ $(function () {
             $('#metricsGridBody').slideToggle();
         } else {
             var duration = 1500
-            , message = $('#dataNotReadyMetrics');
+                , message = $('#dataNotReadyMetrics');
             message.fadeIn(duration, function () {
                 message.fadeOut(duration, function () { });
             });
@@ -78,17 +78,10 @@ $(function () {
         playerData.players = $playersGrid.getGridParam('data');
         
         playerData.columns = {};
-        playerData.numTeams = 0;
+        playerData.numTeams = $('#numberTeams').val();
         
         $.each(rows, function (i, row) {
-            var name = row.name
-                , value = row.value;
-            
-            if (name === 'Number of Teams') {
-                playerData.numTeams = value;
-            } else {
-                playerData.columns[name] = value;
-            }
+            playerData.columns[row.name] = row.value;
         });
         
         playerData.genderColumn = $('input[name="selectedGender"]:checked').val();
@@ -148,8 +141,6 @@ $(function () {
             $metricsGrid.addRowData(i, {name: playerCol, value: 0});
         });
         
-        //add an extra row so the user can enter how many teams they want
-        $metricsGrid.addRowData($metricsGrid.getDataIDs().length + 1, {index: 'numTeams', name: 'Number of Teams', value: 0});
         $metricsGrid.trigger('reloadGrid');
     }
     
