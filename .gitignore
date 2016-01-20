@@ -1,6 +1,7 @@
-hat team site.komodoproject
+*.komodoproject
 static/downloads/*
 !static/downloads/.gitkeep
 *.pyc
 app.pid
 local_settings.py
+venv/**

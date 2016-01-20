@@ -5,21 +5,21 @@ import sys
 
 from flask import Flask, request, send_from_directory, render_template, jsonify, session, url_for
 
-from flaskext.mail import Mail, Message
+from flask_mail import Mail, Message
 
 from utils import allowed_file, jsonify_csv, qsort, split_players, teamify
 
 from werkzeug import secure_filename
 from werkzeug.wsgi import SharedDataMiddleware
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+from local_settings import *
 
 
 app = Flask(__name__)
-app.secret_key = secret_key or '<insertsomethingsecret>'
+try:
+    app.secret_key = secret_key
+except NameError:
+    raise NameError('No secret_key defined in local_settings')
 
 app.debug = debug or False
 
